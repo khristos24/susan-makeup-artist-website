@@ -12,7 +12,7 @@ const makeupServices = [
     description:
       "The ultimate bridal makeup experience to make you look and feel flawless on your wedding day. Includes a trial session, professional application, and a long-lasting finish.",
     features: ["Bridal trial session", "Long-lasting formula", "Custom color matching", "Touch-up kit included"],
-    image: "/assets/IMG-20251227-WA0036.jpg",
+    image: "/assets/VID-20251227-WA0045.gif",
   },
   {
     icon: <Sparkles size={40} />,
