@@ -19,7 +19,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-4 text-xl text-[#E6D1C3]"
+            className="mt-4 text-xl text-[#8c6235]"
           >
             Book your appointment today.
           </motion.p>

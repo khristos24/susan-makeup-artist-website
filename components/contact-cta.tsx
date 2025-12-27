@@ -6,7 +6,7 @@ export default function ContactCta() {
     <section className="bg-gradient-to-b from-[#1a1410] to-[#0E0E0E] px-4 py-16" id="contact">
       <div className="mx-auto max-w-4xl text-center">
         <h3 className="font-display text-3xl text-white md:text-4xl">Ready to Book Your Appointment?</h3>
-        <p className="mt-4 text-[#E6D1C3]/80">
+        <p className="mt-4 text-[#8c6235]">
           Limited slots available. Reach out via WhatsApp or send us a message to secure your date.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">

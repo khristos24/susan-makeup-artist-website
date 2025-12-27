@@ -60,8 +60,8 @@ a {
   background: linear-gradient(180deg, #fffaf2 0%, #f3e8d9 100%) !important;
 }
 .text-white { color: #1f140b !important; }
-.text-white\/80 { color: rgba(31, 20, 11, 0.9) !important; }
-.text-white\/70 { color: rgba(31, 20, 11, 0.8) !important; }
-.text-white\/60 { color: rgba(31, 20, 11, 0.72) !important; }
+.text-white\/80 { color: #7a5328 !important; }
+.text-white\/70 { color: #8c6235 !important; }
+.text-white\/60 { color: #9e7142 !important; }
 .text-white\/50 { color: rgba(31, 20, 11, 0.6) !important; }
 .text-white\/40 { color: rgba(31, 20, 11, 0.5) !important; }

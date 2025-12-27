@@ -61,7 +61,7 @@ export default function PackagesSection() {
           <p className="section-eyebrow mb-4 text-sm">Exclusive Packages</p>
           <h2 className="font-display text-4xl text-[#2c1a0a] md:text-6xl">Glam Packages & Pricing</h2>
           <div className="mx-auto mt-4 h-1 w-24 bg-[#C9A24D]" />
-          <p className="mx-auto mt-6 max-w-2xl text-[#5a4632]">
+          <p className="mx-auto mt-6 max-w-2xl text-[#8c6235]">
             Book your appointment today and experience the luxury of flawless glam.
           </p>
         </div>
@@ -143,7 +143,7 @@ export default function PackagesSection() {
         </div>
 
         <div className="mt-12 rounded-lg border border-[#C9A24D]/30 bg-[#f9f0de] p-6 text-center">
-          <p className="text-[#4a3320]">
+          <p className="text-[#7a5328]">
             <span className="text-[#C9A24D]">Important:</span> Limited slots available. Booking fee required.{" "}
             <span className="text-[#C9A24D]">No refunds.</span> Travel fees may apply.
           </p>

@@ -93,7 +93,7 @@ export default function CataloguePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-4 text-xl text-[#E6D1C3]"
+            className="mt-4 text-xl text-[#8c6235]"
           >
             A showcase of flawless transformations and luxury beauty moments.
           </motion.p>
