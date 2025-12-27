@@ -93,6 +93,11 @@ export default function PackagesSection() {
                     )}
                     <span className="text-4xl text-[#b1781d]">{pkg.price}</span>
                   </div>
+                  <div className="mt-2 text-sm text-[#5a4632]">
+                    {pkg.name === "Bridal Package" && "Includes premium skin prep and consultation"}
+                    {pkg.name === "Birthday Glam Package" && "Premium prep, photoshoot styling, and edited photos"}
+                    {pkg.name === "Exclusive Birthday Shoot" && "Makeup, outfits, and cinematic reel creation"}
+                  </div>
                 </div>
 
                 <div className="mb-6 h-px w-full bg-[#C9A24D]/20" />
