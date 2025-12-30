@@ -1,0 +1,133 @@
+import { NextResponse, type NextRequest } from "next/server"
+import Stripe from "stripe"
+
+import { sql } from "../../../../lib/db"
+import { packages } from "../../../../data/packages"
+
+const stripeSecret = process.env.STRIPE_SECRET_KEY
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://beautyhomebysuzain.com"
+
+function bookingReference() {
+  const now = new Date()
+  const y = now.getFullYear()
+  const m = String(now.getMonth() + 1).padStart(2, "0")
+  const d = String(now.getDate()).padStart(2, "0")
+  const rand = Math.random().toString(36).slice(-4).toUpperCase()
+  return `BHS-${y}${m}${d}-${rand}`
+}
+
+export async function POST(request: NextRequest) {
+  if (!stripeSecret) {
+    return NextResponse.json({ error: "Stripe not configured" }, { status: 500 })
+  }
+
+  const stripe = new Stripe(stripeSecret, {
+    apiVersion: "2024-10-22",
+  })
+
+  const body = await request.json().catch(() => null)
+  if (!body) {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 })
+  }
+
+  const {
+    packageId,
+    payType,
+    appointmentDate,
+    timeWindow,
+    country,
+    city,
+    name,
+    phone,
+    email,
+    instagramHandle,
+    notes,
+  } = body
+
+  if (!packageId || !payType || !appointmentDate || !timeWindow || !country || !city || !name || !phone) {
+    return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+  }
+
+  const pkg = packages.find((p) => p.id === packageId)
+  if (!pkg) {
+    return NextResponse.json({ error: "Package not found" }, { status: 404 })
+  }
+
+  const amountMajor = payType === "deposit" ? pkg.deposit : pkg.price
+  const amountMinor = Math.round(amountMajor * 100)
+
+  const reference = bookingReference()
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency: pkg.currency.toLowerCase(),
+            product_data: {
+              name: `${pkg.name} (${payType === "deposit" ? "Deposit" : "Full Payment"})`,
+              metadata: { reference, package_id: pkg.id },
+            },
+            unit_amount: amountMinor,
+          },
+        },
+      ],
+      success_url: `${siteUrl}/book/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${siteUrl}/book?canceled=1`,
+      metadata: {
+        booking_reference: reference,
+        package_id: pkg.id,
+        pay_type: payType,
+      },
+      customer_email: email || undefined,
+    })
+
+    await sql`
+      INSERT INTO bookings (
+        reference,
+        package_id,
+        package_name,
+        currency,
+        amount_paid,
+        pay_type,
+        appointment_date,
+        time_window,
+        country,
+        city,
+        customer_name,
+        customer_email,
+        customer_phone,
+        instagram_handle,
+        notes,
+        status,
+        stripe_session_id
+      ) VALUES (
+        ${reference},
+        ${pkg.id},
+        ${pkg.name},
+        ${pkg.currency},
+        ${amountMinor},
+        ${payType},
+        ${appointmentDate},
+        ${timeWindow},
+        ${country},
+        ${city},
+        ${name},
+        ${email || null},
+        ${phone},
+        ${instagramHandle || null},
+        ${notes || null},
+        ${"pending"},
+        ${session.id}
+      )
+    `
+
+    return NextResponse.json({ url: session.url, reference })
+  } catch (error) {
+    console.error("Checkout error", error)
+    return NextResponse.json({ error: "Failed to create checkout session" }, { status: 500 })
+  }
+}

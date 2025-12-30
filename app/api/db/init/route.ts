@@ -1,0 +1,37 @@
+import { NextResponse } from "next/server"
+
+import { sql } from "../../../../lib/db"
+
+export async function GET() {
+  try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS bookings (
+        id SERIAL PRIMARY KEY,
+        reference TEXT UNIQUE NOT NULL,
+        package_id TEXT NOT NULL,
+        package_name TEXT NOT NULL,
+        currency TEXT NOT NULL,
+        amount_paid INTEGER NOT NULL,
+        pay_type TEXT NOT NULL,
+        appointment_date TEXT NOT NULL,
+        time_window TEXT NOT NULL,
+        country TEXT NOT NULL,
+        city TEXT NOT NULL,
+        customer_name TEXT NOT NULL,
+        customer_email TEXT,
+        customer_phone TEXT NOT NULL,
+        instagram_handle TEXT,
+        notes TEXT,
+        status TEXT NOT NULL,
+        stripe_session_id TEXT,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+    `
+    await sql`CREATE INDEX IF NOT EXISTS idx_bookings_status_created ON bookings(status, created_at);`
+
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error("DB init error", error)
+    return NextResponse.json({ error: "Failed to initialize DB" }, { status: 500 })
+  }
+}

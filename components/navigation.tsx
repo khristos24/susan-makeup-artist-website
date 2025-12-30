@@ -36,7 +36,7 @@ export default function Navigation() {
             </Link>
           ))}
           <Link
-            href="/contact"
+            href="/book"
             className="rounded bg-[#C9A24D] px-6 py-2.5 text-sm font-semibold text-[#1c1208] transition-colors hover:bg-[#e8d6b5]"
           >
             Book Now
@@ -65,7 +65,7 @@ export default function Navigation() {
             </Link>
           ))}
           <Link
-            href="/contact"
+            href="/book"
             onClick={() => setIsOpen(false)}
             className="block w-full rounded bg-[#C9A24D] px-6 py-3 text-center text-sm font-semibold text-[#1c1208] transition-colors hover:bg-[#e8d6b5]"
           >

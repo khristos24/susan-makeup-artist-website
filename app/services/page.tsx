@@ -243,23 +243,23 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-4xl text-center">
           <h3 className="font-display text-3xl text-white md:text-4xl">Ready to Book Your Appointment?</h3>
           <p className="mt-4 text-white/60">Limited slots available. Contact us today to secure your date.</p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <a
-              href="https://wa.me/447523992614"
-              target="_blank"
-              rel="noopener noreferrer"
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <a
+                href="https://wa.me/447523992614"
+                target="_blank"
+                rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded bg-[#C9A24D] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#0E0E0E] transition-colors hover:bg-[#E6D1C3]"
             >
               WhatsApp: +44 7523 992614
             </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded border-2 border-[#C9A24D] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#C9A24D] transition-colors hover:bg-[#C9A24D] hover:text-[#0E0E0E]"
-            >
-              Contact Us
-            </Link>
+              <Link
+                href="/book"
+                className="inline-flex items-center justify-center rounded border-2 border-[#C9A24D] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#C9A24D] transition-colors hover:bg-[#C9A24D] hover:text-[#0E0E0E]"
+              >
+                Book Online
+              </Link>
+            </div>
           </div>
-        </div>
       </section>
     </div>
   )
