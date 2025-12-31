@@ -3,6 +3,11 @@ import { NextResponse } from "next/server"
 import { sql } from "../../../../lib/db"
 
 export async function GET() {
+  const conn = process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL
+  if (!conn) {
+    return NextResponse.json({ error: "Database not configured" }, { status: 500 })
+  }
+
   try {
     await sql`
       CREATE TABLE IF NOT EXISTS bookings (

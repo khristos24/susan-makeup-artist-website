@@ -38,7 +38,7 @@ export default function AdminBookingsPage() {
       setPassword(stored)
       void fetchBookings(stored, statusFilter)
     }
-  }, [])
+  }, [statusFilter])
 
   async function fetchBookings(key: string, status?: string) {
     setLoading(true)
