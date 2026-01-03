@@ -1,6 +1,7 @@
 'use client'
 
 import Link from "next/link"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
@@ -46,11 +47,13 @@ export default function Hero() {
           }`}
         >
           <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/38 to-black/45" />
-          <img
+          <Image
             src={image.url}
             alt={image.title}
-            className="h-full w-full object-cover"
+            fill
+            className="object-cover"
             style={{ objectPosition: "center 20%" }}
+            priority={index === 0}
           />
         </div>
       ))}

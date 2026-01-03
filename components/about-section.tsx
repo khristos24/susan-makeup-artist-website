@@ -1,14 +1,19 @@
+import Image from "next/image"
+
 export default function AboutSection() {
   return (
     <section className="bg-[#0E0E0E] px-4 py-20">
       <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
         <div className="relative">
           <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-lg bg-[#C9A24D]/20" />
-          <img
-            src="/assets/IMG-20251227-WA0014.jpg"
-            alt="Susan Eworo - Makeup Artist"
-            className="relative h-[500px] w-full rounded-lg object-cover shadow-2xl"
-          />
+          <div className="relative h-[500px] w-full">
+            <Image
+              src="/assets/IMG-20251227-WA0014.jpg"
+              alt="Susan Eworo - Makeup Artist"
+              fill
+              className="rounded-lg object-cover shadow-2xl"
+            />
+          </div>
         </div>
 
         <div>

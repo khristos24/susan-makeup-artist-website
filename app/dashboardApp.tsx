@@ -48,7 +48,7 @@ export default function DashboardApp() {
             <div className="p-8 text-center text-muted-foreground">
                 <h2 className="text-xl mb-2">Settings</h2>
                 <p>Admin settings configuration coming soon.</p>
-                <p className="text-sm mt-4">Use the JSON editor in "Content > Settings" to configure admin credentials manually.</p>
+                <p className="text-sm mt-4">Use the JSON editor in &quot;Content &gt; Settings&quot; to configure admin credentials manually.</p>
             </div>
         );
       default:
