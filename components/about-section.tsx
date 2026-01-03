@@ -24,10 +24,11 @@ export default function AboutSection() {
           <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-lg bg-[#C9A24D]/20" />
           <div className="relative h-[500px] w-full">
             <Image
-              src={withSite(about?.image || "/assets/IMG-20251227-WA0014.jpg")}
+              src={withSite(about?.image || "/assets/IMG-20251227-WA0028.jpg")}
               alt={about?.imageAlt || "Susan Eworo - Makeup Artist"}
               fill
               className="rounded-lg object-cover shadow-2xl"
+              style={{ objectPosition: "center 15%" }}
             />
           </div>
         </div>
