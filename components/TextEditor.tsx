@@ -360,6 +360,98 @@ export default function TextEditor({
                 </div>
               </div>
             </div>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <div className="space-y-3">
+                <label className="block text-sm font-medium text-[#2c1a0a]">Locations</label>
+                <div className="space-y-2">
+                  {(Array.isArray(data.locations) ? data.locations : []).map((loc: string, idx: number) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <Input
+                        id={`about_location_${idx}`}
+                        value={loc}
+                        onChange={(e) => {
+                          const list = Array.isArray(data.locations) ? [...data.locations] : []
+                          list[idx] = e.target.value
+                          const next = { ...data, locations: list }
+                          setData(next)
+                          setRawJson(JSON.stringify(next, null, 2))
+                        }}
+                      />
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          const list = Array.isArray(data.locations) ? [...data.locations] : []
+                          list.splice(idx, 1)
+                          const next = { ...data, locations: list }
+                          setData(next)
+                          setRawJson(JSON.stringify(next, null, 2))
+                        }}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+                <Button
+                  variant="primary"
+                  className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                  onClick={() => {
+                    const list = Array.isArray(data.locations) ? [...data.locations] : []
+                    const next = { ...data, locations: [...list, ""] }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Location
+                </Button>
+              </div>
+              <div className="space-y-3">
+                <label className="block text-sm font-medium text-[#2c1a0a]">Training Notes</label>
+                <div className="space-y-2">
+                  {(Array.isArray(data.training) ? data.training : []).map((note: string, idx: number) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <Input
+                        id={`about_training_${idx}`}
+                        value={note}
+                        onChange={(e) => {
+                          const list = Array.isArray(data.training) ? [...data.training] : []
+                          list[idx] = e.target.value
+                          const next = { ...data, training: list }
+                          setData(next)
+                          setRawJson(JSON.stringify(next, null, 2))
+                        }}
+                      />
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          const list = Array.isArray(data.training) ? [...data.training] : []
+                          list.splice(idx, 1)
+                          const next = { ...data, training: list }
+                          setData(next)
+                          setRawJson(JSON.stringify(next, null, 2))
+                        }}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+                <Button
+                  variant="primary"
+                  className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                  onClick={() => {
+                    const list = Array.isArray(data.training) ? [...data.training] : []
+                    const next = { ...data, training: [...list, ""] }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Training Note
+                </Button>
+              </div>
+            </div>
             <input
               ref={fileInputRef}
               type="file"
@@ -367,6 +459,559 @@ export default function TextEditor({
               className="hidden"
               onChange={handleFileChange}
             />
+          </CardContent>
+        </Card>
+      )}
+
+      {mode === "form" && section === "services" && (data?.services || data?.hero) && (
+        <Card>
+          <CardContent>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-4">
+                <Input
+                  label="Hero Title"
+                  id="services_hero_title"
+                  value={data.hero?.title || ""}
+                  onChange={(e) => {
+                    const next = { ...data, hero: { ...(data.hero || {}), title: e.target.value } }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+                <Textarea
+                  label="Hero Subtitle"
+                  id="services_hero_subtitle"
+                  value={data.hero?.subtitle || ""}
+                  onChange={(e) => {
+                    const next = { ...data, hero: { ...(data.hero || {}), subtitle: e.target.value } }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                  rows={3}
+                />
+              </div>
+            </div>
+            <div className="mt-6">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-[#2c1a0a]">Services</label>
+                <Button
+                  variant="primary"
+                  className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                  onClick={() => {
+                    const list = Array.isArray(data.services) ? data.services : []
+                    const nextItem = { title: "", description: "", features: [], image: "/assets/placeholder.jpg", imageHistory: [] }
+                    const next = { ...data, services: [nextItem, ...list] }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Service
+                </Button>
+              </div>
+              <div className="mt-4 space-y-6">
+                {(Array.isArray(data.services) ? data.services : []).map((svc: any, idx: number) => (
+                  <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
+                    <div className="flex items-start gap-4">
+                      <img
+                        src={withSite(svc.image)}
+                        alt={svc.title || `Service ${idx + 1}`}
+                        className="w-40 h-28 object-cover rounded"
+                        onError={(e) => ((e.currentTarget.src = "/assets/placeholder.jpg"))}
+                      />
+                      <div className="flex-1 space-y-3">
+                        <div className="flex items-center gap-3">
+                          <Button
+                            variant="primary"
+                            className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                            onClick={() =>
+                              openFilePickerFor((url) => {
+                                const list = Array.isArray(data.services) ? [...data.services] : []
+                                const prev = list[idx]?.image
+                                const hist = Array.isArray(list[idx]?.imageHistory) ? list[idx].imageHistory : []
+                                list[idx] = { ...list[idx], image: url, imageHistory: [prev, ...hist] }
+                                const next = { ...data, services: list }
+                                setData(next)
+                                setRawJson(JSON.stringify(next, null, 2))
+                              })
+                            }
+                          >
+                            Replace Image
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            onClick={() => {
+                              const list = Array.isArray(data.services) ? [...data.services] : []
+                              list.splice(idx, 1)
+                              const next = { ...data, services: list }
+                              setData(next)
+                              setRawJson(JSON.stringify(next, null, 2))
+                            }}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            Remove
+                          </Button>
+                        </div>
+                        <Input
+                          label="Title"
+                          id={`services_${idx}_title`}
+                          value={svc.title || ""}
+                          onChange={(e) => {
+                            const list = Array.isArray(data.services) ? [...data.services] : []
+                            list[idx] = { ...list[idx], title: e.target.value }
+                            const next = { ...data, services: list }
+                            setData(next)
+                            setRawJson(JSON.stringify(next, null, 2))
+                          }}
+                        />
+                        <Textarea
+                          label="Description"
+                          id={`services_${idx}_desc`}
+                          value={svc.description || ""}
+                          onChange={(e) => {
+                            const list = Array.isArray(data.services) ? [...data.services] : []
+                            list[idx] = { ...list[idx], description: e.target.value }
+                            const next = { ...data, services: list }
+                            setData(next)
+                            setRawJson(JSON.stringify(next, null, 2))
+                          }}
+                          rows={3}
+                        />
+                        <Textarea
+                          label="Features (one per line)"
+                          id={`services_${idx}_features`}
+                          value={Array.isArray(svc.features) ? svc.features.join("\n") : ""}
+                          onChange={(e) => {
+                            const lines = e.target.value.split("\n").filter(Boolean)
+                            const list = Array.isArray(data.services) ? [...data.services] : []
+                            list[idx] = { ...list[idx], features: lines }
+                            const next = { ...data, services: list }
+                            setData(next)
+                            setRawJson(JSON.stringify(next, null, 2))
+                          }}
+                          rows={4}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+          </CardContent>
+        </Card>
+      )}
+
+      {mode === "form" && section === "packages" && data?.packages && (
+        <Card>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium text-[#2c1a0a]">Packages</label>
+              <Button
+                variant="primary"
+                className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                onClick={() => {
+                  const list = Array.isArray(data.packages) ? data.packages : []
+                  const nextItem = {
+                    name: "",
+                    price: "",
+                    originalPrice: "",
+                    badge: "",
+                    availability: "",
+                    note: "",
+                    features: [],
+                    deliverables: [],
+                  }
+                  const next = { ...data, packages: [nextItem, ...list] }
+                  setData(next)
+                  setRawJson(JSON.stringify(next, null, 2))
+                }}
+              >
+                <Plus className="w-4 h-4" />
+                Add Package
+              </Button>
+            </div>
+            <div className="mt-4 space-y-6">
+              {(Array.isArray(data.packages) ? data.packages : []).map((pkg: any, idx: number) => (
+                <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
+                  <div className="flex items-center justify-between">
+                    <Input
+                      label="Name"
+                      id={`package_${idx}_name`}
+                      value={pkg.name || ""}
+                      onChange={(e) => {
+                        const list = Array.isArray(data.packages) ? [...data.packages] : []
+                        list[idx] = { ...list[idx], name: e.target.value }
+                        const next = { ...data, packages: list }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    />
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        const list = Array.isArray(data.packages) ? [...data.packages] : []
+                        list.splice(idx, 1)
+                        const next = { ...data, packages: list }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-3 mt-3">
+                    <Input
+                      label="Price"
+                      id={`package_${idx}_price`}
+                      value={pkg.price || ""}
+                      onChange={(e) => {
+                        const list = Array.isArray(data.packages) ? [...data.packages] : []
+                        list[idx] = { ...list[idx], price: e.target.value }
+                        const next = { ...data, packages: list }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    />
+                    <Input
+                      label="Original Price / Info"
+                      id={`package_${idx}_orig`}
+                      value={pkg.originalPrice || ""}
+                      onChange={(e) => {
+                        const list = Array.isArray(data.packages) ? [...data.packages] : []
+                        list[idx] = { ...list[idx], originalPrice: e.target.value }
+                        const next = { ...data, packages: list }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    />
+                    <Input
+                      label="Badge"
+                      id={`package_${idx}_badge`}
+                      value={pkg.badge || ""}
+                      onChange={(e) => {
+                        const list = Array.isArray(data.packages) ? [...data.packages] : []
+                        list[idx] = { ...list[idx], badge: e.target.value }
+                        const next = { ...data, packages: list }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    />
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-2 mt-3">
+                    <Input
+                      label="Availability"
+                      id={`package_${idx}_availability`}
+                      value={pkg.availability || ""}
+                      onChange={(e) => {
+                        const list = Array.isArray(data.packages) ? [...data.packages] : []
+                        list[idx] = { ...list[idx], availability: e.target.value }
+                        const next = { ...data, packages: list }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    />
+                    <Input
+                      label="Note"
+                      id={`package_${idx}_note`}
+                      value={pkg.note || ""}
+                      onChange={(e) => {
+                        const list = Array.isArray(data.packages) ? [...data.packages] : []
+                        list[idx] = { ...list[idx], note: e.target.value }
+                        const next = { ...data, packages: list }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    />
+                  </div>
+                  <Textarea
+                    label="Features (one per line)"
+                    id={`package_${idx}_features`}
+                    value={Array.isArray(pkg.features) ? pkg.features.join("\n") : ""}
+                    onChange={(e) => {
+                      const lines = e.target.value.split("\n").filter(Boolean)
+                      const list = Array.isArray(data.packages) ? [...data.packages] : []
+                      list[idx] = { ...list[idx], features: lines }
+                      const next = { ...data, packages: list }
+                      setData(next)
+                      setRawJson(JSON.stringify(next, null, 2))
+                    }}
+                    rows={4}
+                  />
+                  <Textarea
+                    label="Deliverables (one per line)"
+                    id={`package_${idx}_deliverables`}
+                    value={Array.isArray(pkg.deliverables) ? pkg.deliverables.join("\n") : ""}
+                    onChange={(e) => {
+                      const lines = e.target.value.split("\n").filter(Boolean)
+                      const list = Array.isArray(data.packages) ? [...data.packages] : []
+                      list[idx] = { ...list[idx], deliverables: lines }
+                      const next = { ...data, packages: list }
+                      setData(next)
+                      setRawJson(JSON.stringify(next, null, 2))
+                    }}
+                    rows={3}
+                  />
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {mode === "form" && section === "portfolio" && data?.items && (
+        <Card>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium text-[#2c1a0a]">Portfolio Items</label>
+              <Button
+                variant="primary"
+                className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                onClick={() => {
+                  const list = Array.isArray(data.items) ? data.items : []
+                  const nextItem = { title: "", category: "", media: "/assets/placeholder.jpg", alt: "" }
+                  const next = { ...data, items: [nextItem, ...list] }
+                  setData(next)
+                  setRawJson(JSON.stringify(next, null, 2))
+                }}
+              >
+                <Plus className="w-4 h-4" />
+                Add Item
+              </Button>
+            </div>
+            <div className="mt-4 space-y-6">
+              {(Array.isArray(data.items) ? data.items : []).map((it: any, idx: number) => (
+                <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
+                  <div className="flex items-start gap-4">
+                    <img
+                      src={withSite(it.media)}
+                      alt={it.alt || `Item ${idx + 1}`}
+                      className="w-40 h-28 object-cover rounded"
+                      onError={(e) => ((e.currentTarget.src = "/assets/placeholder.jpg"))}
+                    />
+                    <div className="flex-1 space-y-3">
+                      <div className="flex items-center gap-3">
+                        <Button
+                          variant="primary"
+                          className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                          onClick={() =>
+                            openFilePickerFor((url) => {
+                              const list = Array.isArray(data.items) ? [...data.items] : []
+                              list[idx] = { ...list[idx], media: url }
+                              const next = { ...data, items: list }
+                              setData(next)
+                              setRawJson(JSON.stringify(next, null, 2))
+                            })
+                          }
+                        >
+                          Replace Media
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          onClick={() => {
+                            const list = Array.isArray(data.items) ? [...data.items] : []
+                            list.splice(idx, 1)
+                            const next = { ...data, items: list }
+                            setData(next)
+                            setRawJson(JSON.stringify(next, null, 2))
+                          }}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Remove
+                        </Button>
+                      </div>
+                      <Input
+                        label="Title"
+                        id={`portfolio_${idx}_title`}
+                        value={it.title || ""}
+                        onChange={(e) => {
+                          const list = Array.isArray(data.items) ? [...data.items] : []
+                          list[idx] = { ...list[idx], title: e.target.value }
+                          const next = { ...data, items: list }
+                          setData(next)
+                          setRawJson(JSON.stringify(next, null, 2))
+                        }}
+                      />
+                      <Input
+                        label="Category"
+                        id={`portfolio_${idx}_category`}
+                        value={it.category || ""}
+                        onChange={(e) => {
+                          const list = Array.isArray(data.items) ? [...data.items] : []
+                          list[idx] = { ...list[idx], category: e.target.value }
+                          const next = { ...data, items: list }
+                          setData(next)
+                          setRawJson(JSON.stringify(next, null, 2))
+                        }}
+                      />
+                      <Input
+                        label="Alt Text"
+                        id={`portfolio_${idx}_alt`}
+                        value={it.alt || ""}
+                        onChange={(e) => {
+                          const list = Array.isArray(data.items) ? [...data.items] : []
+                          list[idx] = { ...list[idx], alt: e.target.value }
+                          const next = { ...data, items: list }
+                          setData(next)
+                          setRawJson(JSON.stringify(next, null, 2))
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+          </CardContent>
+        </Card>
+      )}
+
+      {mode === "form" && section === "contact" && data && (
+        <Card>
+          <CardContent>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-4">
+                <Input
+                  label="Phone"
+                  id="contact_phone"
+                  value={data.phone || ""}
+                  onChange={(e) => {
+                    const next = { ...data, phone: e.target.value }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+                <Input
+                  label="WhatsApp"
+                  id="contact_whatsapp"
+                  value={data.whatsapp || ""}
+                  onChange={(e) => {
+                    const next = { ...data, whatsapp: e.target.value }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+                <Input
+                  label="WhatsApp Link"
+                  id="contact_whatsapp_link"
+                  value={data.whatsappLink || ""}
+                  onChange={(e) => {
+                    const next = { ...data, whatsappLink: e.target.value }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+                <Input
+                  label="Email"
+                  id="contact_email"
+                  value={data.email || ""}
+                  onChange={(e) => {
+                    const next = { ...data, email: e.target.value }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+              </div>
+              <div className="space-y-4">
+                <Input
+                  label="Instagram Link"
+                  id="contact_instagram"
+                  value={data.social?.instagram || ""}
+                  onChange={(e) => {
+                    const next = { ...data, social: { ...(data.social || {}), instagram: e.target.value } }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+                <Input
+                  label="Facebook Link"
+                  id="contact_facebook"
+                  value={data.social?.facebook || ""}
+                  onChange={(e) => {
+                    const next = { ...data, social: { ...(data.social || {}), facebook: e.target.value } }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+                <Input
+                  label="CTA Label"
+                  id="contact_cta_label"
+                  value={data.ctaLabel || ""}
+                  onChange={(e) => {
+                    const next = { ...data, ctaLabel: e.target.value }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+                <Input
+                  label="CTA Link"
+                  id="contact_cta_link"
+                  value={data.ctaLink || ""}
+                  onChange={(e) => {
+                    const next = { ...data, ctaLink: e.target.value }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mt-6">
+              <label className="text-sm font-medium text-[#2c1a0a]">Address Lines</label>
+              <div className="mt-2 space-y-2">
+                {(Array.isArray(data.address?.lines) ? data.address.lines : []).map((line: string, idx: number) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Input
+                      id={`contact_addr_${idx}`}
+                      value={line}
+                      onChange={(e) => {
+                        const lines = Array.isArray(data.address?.lines) ? [...data.address.lines] : []
+                        lines[idx] = e.target.value
+                        const next = { ...data, address: { ...(data.address || {}), lines } }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    />
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        const lines = Array.isArray(data.address?.lines) ? [...data.address.lines] : []
+                        lines.splice(idx, 1)
+                        const next = { ...data, address: { ...(data.address || {}), lines } }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-2 flex items-center gap-3">
+                <Button
+                  variant="primary"
+                  className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                  onClick={() => {
+                    const lines = Array.isArray(data.address?.lines) ? [...data.address.lines] : []
+                    const next = { ...data, address: { ...(data.address || {}), lines: [...lines, ""] } }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Line
+                </Button>
+                <Input
+                  label="Travel Note"
+                  id="contact_travelNote"
+                  value={data.travelNote || ""}
+                  onChange={(e) => {
+                    const next = { ...data, travelNote: e.target.value }
+                    setData(next)
+                    setRawJson(JSON.stringify(next, null, 2))
+                  }}
+                />
+              </div>
+            </div>
           </CardContent>
         </Card>
       )}
