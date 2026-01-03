@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { getSection, withSite } from "@/lib/api"
+// import { getSection, withSite } from "@/lib/api"
 
 type Slide = {
   url: string
@@ -39,28 +39,7 @@ export default function Hero() {
   const [slides, setSlides] = useState<Slide[]>(defaultSlides)
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const home = await getSection("home")
-        const remoteSlides =
-          home?.hero?.slides?.map((s: any) => ({
-            url: withSite(s.image),
-            title: s.title,
-            subtitle: s.subtitle,
-            primaryLabel: s.primaryLabel,
-            primaryHref: s.primaryHref,
-            secondaryLabel: s.secondaryLabel,
-            secondaryHref: s.secondaryHref,
-          })) || []
-        if (remoteSlides.length) setSlides(remoteSlides)
-      } catch {
-        /* keep defaults */
-      }
-    })()
-    const timer = setInterval(
-      () => setCurrentSlide((prev) => (prev + 1) % slides.length),
-      5000,
-    )
+    const timer = setInterval(() => setCurrentSlide((prev) => (prev + 1) % slides.length), 5000)
     return () => clearInterval(timer)
   }, [slides.length])
 
@@ -76,13 +55,13 @@ export default function Hero() {
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/38 to-black/45" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/10 via-black/50 to-black/70" />
           <Image
             src={image.url}
             alt={image.title}
             fill
             className="object-cover"
-            style={{ objectPosition: "center 20%" }}
+            style={{ objectPosition: "center 35%" }}
             priority={index === 0}
           />
         </div>
