@@ -6,6 +6,17 @@ import { packages } from "../../../../data/packages"
 
 const stripeSecret = process.env.STRIPE_SECRET_KEY
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://beautyhomebysuzain.com"
+const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET || "susan-makeup-artist-website-blob"
+const BLOB_BASE_URL =
+  process.env.BLOB_BASE_URL ||
+  process.env.NEXT_PUBLIC_BLOB_BASE_URL ||
+  `https://${BLOB_BUCKET}.public.blob.vercel-storage.com`
+const BLOB_TOKEN =
+  process.env.BLOB_READ_WRITE_TOKEN ||
+  process.env.NEXT_PUBLIC_BLOB_READ_WRITE_TOKEN ||
+  process.env.NEXT_PUBLIC_BLOB_RW_TOKEN ||
+  process.env.BLOB_READ_WRITE_TOKEN
+const BOOKINGS_BLOB_URL = `${BLOB_BASE_URL}/bookings/bookings.json`
 
 function bookingReference() {
   const now = new Date()
@@ -83,45 +94,79 @@ export async function POST(request: NextRequest) {
       customer_email: email || undefined,
     })
 
-    await sql`
-      INSERT INTO bookings (
+    const conn = process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL
+    if (conn) {
+      await sql`
+        INSERT INTO bookings (
+          reference,
+          package_id,
+          package_name,
+          currency,
+          amount_paid,
+          pay_type,
+          appointment_date,
+          time_window,
+          country,
+          city,
+          customer_name,
+          customer_email,
+          customer_phone,
+          instagram_handle,
+          notes,
+          status,
+          stripe_session_id
+        ) VALUES (
+          ${reference},
+          ${pkg.id},
+          ${pkg.name},
+          ${pkg.currency},
+          ${amountMinor},
+          ${payType},
+          ${appointmentDate},
+          ${timeWindow},
+          ${country},
+          ${city},
+          ${name},
+          ${email || null},
+          ${phone},
+          ${instagramHandle || null},
+          ${notes || null},
+          ${"pending"},
+          ${session.id}
+        )
+      `
+    } else if (BLOB_TOKEN) {
+      const booking = {
         reference,
-        package_id,
-        package_name,
-        currency,
-        amount_paid,
-        pay_type,
-        appointment_date,
-        time_window,
+        package_id: pkg.id,
+        package_name: pkg.name,
+        currency: pkg.currency,
+        amount_paid: amountMinor,
+        pay_type: payType,
+        appointment_date: appointmentDate,
+        time_window: timeWindow,
         country,
         city,
-        customer_name,
-        customer_email,
-        customer_phone,
-        instagram_handle,
-        notes,
-        status,
-        stripe_session_id
-      ) VALUES (
-        ${reference},
-        ${pkg.id},
-        ${pkg.name},
-        ${pkg.currency},
-        ${amountMinor},
-        ${payType},
-        ${appointmentDate},
-        ${timeWindow},
-        ${country},
-        ${city},
-        ${name},
-        ${email || null},
-        ${phone},
-        ${instagramHandle || null},
-        ${notes || null},
-        ${"pending"},
-        ${session.id}
-      )
-    `
+        customer_name: name,
+        customer_email: email || null,
+        customer_phone: phone,
+        instagram_handle: instagramHandle || null,
+        notes: notes || null,
+        status: "pending",
+        stripe_session_id: session.id,
+        created_at: new Date().toISOString(),
+      }
+      const existing = await fetch(BOOKINGS_BLOB_URL, { cache: "no-store" }).then((r) => (r.ok ? r.json() : [])).catch(() => [])
+      const next = Array.isArray(existing) ? [booking, ...existing] : [booking]
+      await fetch(BOOKINGS_BLOB_URL, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${BLOB_TOKEN}`,
+        },
+        body: JSON.stringify(next),
+      })
+    }
 
     return NextResponse.json({ url: session.url, reference })
   } catch (error) {

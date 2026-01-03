@@ -4,6 +4,17 @@ import { verifySession, COOKIE_NAME } from "@/lib/auth"
 import { sql } from "@/lib/db"
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || process.env.NEXT_PUBLIC_ADMIN_PASSWORD
+const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET || "susan-makeup-artist-website-blob"
+const BLOB_BASE_URL =
+  process.env.BLOB_BASE_URL ||
+  process.env.NEXT_PUBLIC_BLOB_BASE_URL ||
+  `https://${BLOB_BUCKET}.public.blob.vercel-storage.com`
+const BLOB_TOKEN =
+  process.env.BLOB_READ_WRITE_TOKEN ||
+  process.env.NEXT_PUBLIC_BLOB_READ_WRITE_TOKEN ||
+  process.env.NEXT_PUBLIC_BLOB_RW_TOKEN ||
+  process.env.BLOB_READ_WRITE_TOKEN
+const BOOKINGS_BLOB_URL = `${BLOB_BASE_URL}/bookings/bookings.json`
 
 function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
@@ -24,7 +35,10 @@ export async function GET(request: NextRequest) {
   try {
     const conn = process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL
     if (!conn) {
-      return NextResponse.json({ bookings: [] })
+      const existing = await fetch(BOOKINGS_BLOB_URL, { cache: "no-store" }).then((r) => (r.ok ? r.json() : [])).catch(() => [])
+      const list = Array.isArray(existing) ? existing : []
+      const filtered = status ? list.filter((b: any) => b.status === status) : list
+      return NextResponse.json({ bookings: filtered })
     }
     const bookings = status
       ? await sql`SELECT * FROM bookings WHERE status = ${status} ORDER BY created_at DESC LIMIT 200`
@@ -32,6 +46,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ bookings: bookings.rows })
   } catch (error) {
     console.error("Fetch bookings error", error)
-    return NextResponse.json({ bookings: [] })
+    try {
+      const existing = await fetch(BOOKINGS_BLOB_URL, { cache: "no-store" }).then((r) => (r.ok ? r.json() : [])).catch(() => [])
+      const list = Array.isArray(existing) ? existing : []
+      const filtered = status ? list.filter((b: any) => b.status === status) : list
+      return NextResponse.json({ bookings: filtered })
+    } catch {
+      return NextResponse.json({ bookings: [] })
+    }
   }
 }
