@@ -28,7 +28,7 @@ export default function AboutSection() {
               alt={about?.imageAlt || "Susan Eworo - Makeup Artist"}
               fill
               className="rounded-lg object-cover shadow-2xl"
-              style={{ objectPosition: "center 15%" }}
+              style={{ objectPosition: "center 30%" }}
             />
           </div>
         </div>

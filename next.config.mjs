@@ -6,6 +6,16 @@ const nextConfig = {
       'beautyhomebysuzain.com',
       'susan-makeup-artist-website.vercel.app',
     ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.cdninstagram.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'beautyhomebysuzain.com',
+      },
+    ],
   },
 }
 
