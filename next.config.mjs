@@ -15,6 +15,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'beautyhomebysuzain.com',
       },
+      {
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
+      },
     ],
   },
 }
