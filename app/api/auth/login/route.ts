@@ -46,16 +46,20 @@ export async function POST(req: Request) {
   }
 
   if (!admin?.username || !admin?.passwordHash) {
-     // Use fallback if settings API returned empty object
-     admin = fallbackSettings.admin;
+    admin = fallbackSettings.admin;
   }
 
   if (normalizedUser !== String(admin.username).toLowerCase()) {
     return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
-  // Use ChristisKing8 as default hash if using fallback, otherwise compare
-  const ok = await bcrypt.compare(password, admin.passwordHash);
+  // If using built-in fallback, accept the default plaintext for compatibility
+  let ok = false
+  if (admin === fallbackSettings.admin) {
+    ok = password === "ChristisKing8"
+  } else {
+    ok = await bcrypt.compare(password, admin.passwordHash)
+  }
   if (!ok) {
     return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
   }

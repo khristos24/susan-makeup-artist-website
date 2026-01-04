@@ -9,11 +9,12 @@ export default function DashboardPage() {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    // Force re-login on page refresh
+    // Force re-login only on actual browser reload of dashboard
     try {
-      const perf = (performance as any)?.getEntriesByType?.("navigation") || [];
-      const isReload = Array.isArray(perf) && perf[0]?.type === "reload";
-      if (isReload) {
+      const nav = (performance as any)?.getEntriesByType?.("navigation");
+      const isReload = Array.isArray(nav) && nav[0]?.type === "reload";
+      const cameFromDashboard = typeof document !== "undefined" && document.referrer.includes("/dashboard");
+      if (isReload && cameFromDashboard) {
         fetch("/api/auth/logout", { method: "POST" }).finally(() => {
           router.replace("/login");
         });
