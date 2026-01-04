@@ -1,6 +1,6 @@
 import { Card, CardContent } from "./Card";
 import { Button } from "./Button";
-import { Edit, Home, Info, Phone, Package, Palette, Image as ImageIcon, Settings } from "lucide-react";
+import { Edit, Home, Info, Phone, Package, Palette, Image as ImageIcon } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { withSite } from "@/lib/api";
 
@@ -56,14 +56,6 @@ const sections = [
     preview: "+44 7523 992614 | London & UK",
     icon: Phone,
     image: "/assets/IMG-20251227-WA0036.jpg",
-  },
-  {
-    id: "settings",
-    title: "Settings",
-    description: "Admin credentials and site settings",
-    preview: "Admin user, profile, general notes",
-    icon: Settings,
-    image: "/assets/IMG-20251227-WA0034.jpg",
   },
 ];
 
