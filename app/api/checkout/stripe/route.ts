@@ -4,6 +4,7 @@ import { put } from "@vercel/blob"
 
 import { sql } from "../../../../lib/db"
 import { packages } from "../../../../data/packages"
+import { rateLimit } from "@/lib/rateLimit"
 
 const stripeSecret = process.env.STRIPE_SECRET_KEY
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://beautyhomebysuzain.com"
@@ -29,6 +30,8 @@ function bookingReference() {
 }
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit(request, { key: "checkout:stripe", max: 5, windowMs: 60_000 })
+  if (limited.blocked && limited.response) return limited.response
   if (!stripeSecret) {
     return NextResponse.json({ error: "Stripe not configured" }, { status: 500 })
   }

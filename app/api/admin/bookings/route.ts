@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server"
 import { cookies } from "next/headers"
 import { verifySession, COOKIE_NAME } from "@/lib/auth"
 import { sql } from "@/lib/db"
+import { rateLimit } from "@/lib/rateLimit"
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || process.env.NEXT_PUBLIC_ADMIN_PASSWORD
 const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET || "susan-makeup-artist-website-blob"
@@ -21,6 +22,8 @@ function unauthorized() {
 }
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimit(request, { key: "admin:bookings", max: 20, windowMs: 60_000 })
+  if (limited.blocked && limited.response) return limited.response
   const token = cookies().get(COOKIE_NAME)?.value
   const isSessionValid = await verifySession(token)
   

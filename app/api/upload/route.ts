@@ -1,7 +1,10 @@
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(request: Request) {
+  const limited = rateLimit(request, { key: "upload:post", max: 5, windowMs: 60_000 })
+  if (limited.blocked && limited.response) return limited.response
   const { searchParams } = new URL(request.url);
   const filename = searchParams.get("filename");
 

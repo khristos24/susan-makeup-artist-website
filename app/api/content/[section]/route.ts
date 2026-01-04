@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { put } from "@vercel/blob"
+import { rateLimit } from "@/lib/rateLimit"
 
 const ALLOWED_SECTIONS = ["home", "about", "services", "packages", "portfolio", "contact", "settings"]
 
@@ -231,6 +232,8 @@ export async function OPTIONS() {
 }
 
 export async function GET(request: NextRequest, { params }: { params: { section: string } }) {
+  const limited = rateLimit(request, { key: "content:get", max: 30, windowMs: 60_000 })
+  if (limited.blocked && limited.response) return limited.response
   const section = params.section?.toLowerCase()
   if (!ALLOWED_SECTIONS.includes(section)) {
     return NextResponse.json({ error: "Section not found" }, { status: 404, headers: corsHeaders() })
@@ -252,6 +255,8 @@ export async function GET(request: NextRequest, { params }: { params: { section:
 }
 
 export async function PUT(request: NextRequest, { params }: { params: { section: string } }) {
+  const limited = rateLimit(request, { key: "content:put", max: 10, windowMs: 60_000 })
+  if (limited.blocked && limited.response) return limited.response
   const section = params.section?.toLowerCase()
   if (!ALLOWED_SECTIONS.includes(section)) {
     return NextResponse.json({ error: "Section not found" }, { status: 404, headers: corsHeaders() })

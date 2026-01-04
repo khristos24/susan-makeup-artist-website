@@ -4,6 +4,7 @@ import Stripe from "stripe"
 import { sql } from "../../../../lib/db"
 
 import { put } from "@vercel/blob"
+import { rateLimit } from "@/lib/rateLimit"
 
 const stripeSecret = process.env.STRIPE_SECRET_KEY
 const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET || "pqum76zhaodicrtp"
@@ -19,6 +20,8 @@ const BLOB_TOKEN =
 const BOOKINGS_BLOB_URL = `${BLOB_BASE_URL}/bookings/bookings.json`
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimit(request, { key: "checkout:verify", max: 20, windowMs: 60_000 })
+  if (limited.blocked && limited.response) return limited.response
   if (!stripeSecret) {
     return NextResponse.json({ error: "Stripe not configured" }, { status: 500 })
   }

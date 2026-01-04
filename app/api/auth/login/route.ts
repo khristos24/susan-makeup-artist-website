@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { signSession, verifySession, COOKIE_NAME } from "@/lib/auth";
 import { SITE_ORIGIN } from "@/lib/api";
+import { rateLimit } from "@/lib/rateLimit";
 
 const fallbackSettings = {
   admin: {
@@ -22,6 +23,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const limited = rateLimit(req, { key: "auth:login", max: 5, windowMs: 60_000 })
+  if (limited.blocked && limited.response) return limited.response as any
   const { username, password } = await req.json();
   const normalizedUser = typeof username === "string" ? username.trim().toLowerCase() : "";
 
@@ -57,17 +60,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
-  // Sign session with UTC expiration
+  // Sign session with short UTC expiration (10 minutes)
   const token = await signSession(admin.username);
   const res = NextResponse.json({ ok: true });
   
-  // Set cookie with explicit UTC expiration date
+  // Set cookie with explicit short UTC expiration date
   res.cookies.set(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // UTC Date object
+    expires: new Date(Date.now() + 10 * 60 * 1000),
   });
   return res;
 }
