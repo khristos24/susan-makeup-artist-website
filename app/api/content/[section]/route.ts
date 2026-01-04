@@ -1,8 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server"
+import { put } from "@vercel/blob"
 
 const ALLOWED_SECTIONS = ["home", "about", "services", "packages", "portfolio", "contact", "settings"]
 
-const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET || "susan-makeup-artist-website-blob"
+const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET || "pqum76zhaodicrtp"
 const BLOB_BASE_URL =
   process.env.BLOB_BASE_URL ||
   process.env.NEXT_PUBLIC_BLOB_BASE_URL ||
@@ -236,18 +237,13 @@ export async function PUT(request: NextRequest, { params }: { params: { section:
   }
 
   try {
-    const res = await fetch(blobUrl(section), {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${BLOB_TOKEN}`,
-      },
-      body: JSON.stringify(body),
+    // Use SDK put instead of fetch
+    await put(`content/${section}.json`, JSON.stringify(body), {
+      access: 'public',
+      addRandomSuffix: false,
+      token: BLOB_TOKEN,
     })
-    if (!res.ok) {
-      const text = await res.text().catch(() => "")
-      throw new Error(text || "Failed to write content")
-    }
+    
     // Respond with what we stored
     return NextResponse.json(body, { headers: corsHeaders() })
   } catch (err) {

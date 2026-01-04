@@ -158,13 +158,11 @@ export async function POST(request: NextRequest) {
       }
       const existing = await fetch(BOOKINGS_BLOB_URL, { cache: "no-store" }).then((r) => (r.ok ? r.json() : [])).catch(() => [])
       const next = Array.isArray(existing) ? [booking, ...existing] : [booking]
-      await fetch(BOOKINGS_BLOB_URL, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${BLOB_TOKEN}`,
-        },
-        body: JSON.stringify(next),
+      
+      await put('bookings/bookings.json', JSON.stringify(next), {
+        access: 'public',
+        addRandomSuffix: false,
+        token: BLOB_TOKEN,
       })
     }
 

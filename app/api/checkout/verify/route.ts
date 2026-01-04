@@ -3,8 +3,10 @@ import Stripe from "stripe"
 
 import { sql } from "../../../../lib/db"
 
+import { put } from "@vercel/blob"
+
 const stripeSecret = process.env.STRIPE_SECRET_KEY
-const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET || "susan-makeup-artist-website-blob"
+const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET || "pqum76zhaodicrtp"
 const BLOB_BASE_URL =
   process.env.BLOB_BASE_URL ||
   process.env.NEXT_PUBLIC_BLOB_BASE_URL ||
@@ -46,10 +48,11 @@ export async function GET(request: NextRequest) {
         const next = Array.isArray(existing)
           ? existing.map((b: any) => (b.stripe_session_id === sessionId ? { ...b, status: "paid" } : b))
           : existing
-        await fetch(BOOKINGS_BLOB_URL, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${BLOB_TOKEN}` },
-          body: JSON.stringify(next),
+        
+        await put('bookings/bookings.json', JSON.stringify(next), {
+          access: 'public',
+          addRandomSuffix: false,
+          token: BLOB_TOKEN,
         })
       }
     }
