@@ -7,7 +7,9 @@ import Link from "next/link"
 import { Suspense, useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
-import { packages, type PackageData } from "../../data/packages"
+import { packages, type PackageData, type Currency } from "../../data/packages"
+import { useEffect } from "react"
+import { getSection } from "@/lib/api"
 
 type PayType = "deposit" | "full"
 
@@ -30,8 +32,48 @@ function BookingPageInner() {
   const [notes, setNotes] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [list, setList] = useState<PackageData[]>(packages)
 
-  const selectedPackage = useMemo(() => packages.find((p) => p.id === selected) || packages[0], [selected])
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const data: any = await getSection("packages")
+        const api = Array.isArray(data?.packages) ? data.packages : []
+        const mapped: PackageData[] = api.map((p: any, idx: number) => {
+          const hasSplit = typeof p.currency === "string" && typeof p.price === "number"
+          const m = !hasSplit ? String(p.price || "").match(/^([A-Z]{3})\s*([\d,]+(?:\.\d+)?)$/) : null
+          const currency: Currency = hasSplit ? (p.currency as Currency) : ((m?.[1] as Currency) || "GBP")
+          const value = hasSplit ? Number(p.price) : m?.[2] ? Number(String(m[2]).replace(/,/g, "")) : 0
+          return {
+            id: typeof p.id === "string" && p.id ? p.id : `${String(p.name || "Package").toLowerCase().replace(/\s+/g, "-")}-${idx}`,
+            name: p.name || `Package ${idx + 1}`,
+            description: p.description || p.originalPrice || "",
+            currency,
+            price: value,
+            deposit: typeof p.deposit === "number" ? p.deposit : 0,
+            includes: Array.isArray(p.includes)
+              ? p.includes
+              : Array.isArray(p.features)
+              ? p.features
+              : Array.isArray(p.deliverables)
+              ? p.deliverables
+              : [],
+            durationEstimate: p.durationEstimate || "",
+            availability: (p.availability as any) || "BOTH",
+          }
+        })
+        if (mapped.length) {
+          setList(mapped)
+          if (!preselect) setSelected(mapped[0]?.id || null)
+        }
+      } catch {
+        /* keep defaults */
+      }
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const selectedPackage = useMemo(() => list.find((p) => p.id === selected) || list[0], [selected, list])
 
   const amount = payType === "deposit" ? selectedPackage.deposit : selectedPackage.price
   const amountLabel = new Intl.NumberFormat("en-GB", {
@@ -95,7 +137,7 @@ function BookingPageInner() {
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {packages.map((pkg) => (
+              {list.map((pkg) => (
                 <button
                   key={pkg.id}
                   onClick={() => setSelected(pkg.id)}

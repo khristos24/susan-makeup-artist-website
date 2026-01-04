@@ -121,6 +121,8 @@ function SettingsForm() {
         }
       }
       const next = { ...data };
+      const username = String(next.admin?.username || 'susan').trim();
+      next.admin = { ...(next.admin || {}), username };
       if (password && password.length >= 6) {
         next.admin = { ...next.admin, passwordHash: await bcrypt.hash(password, 10) };
       }

@@ -40,32 +40,40 @@ export async function POST(req: Request) {
     console.error("Settings fetch error", err);
   }
 
-  // fallback to built-in defaults if remote unavailable or empty
-  if (!admin || !admin.username) {
-    admin = fallbackSettings.admin;
-  }
+  // Normalize admin credentials from settings (support passwordHash or plaintext password)
+  const settingsAdmin = admin && typeof admin === "object" ? admin : {}
+  const adminUsername = String(settingsAdmin.username || "susan")
+  const adminPasswordHash = typeof settingsAdmin.passwordHash === "string" ? settingsAdmin.passwordHash : null
+  const adminPasswordPlain = typeof settingsAdmin.password === "string" ? settingsAdmin.password : null
 
-  if (!admin?.username || !admin?.passwordHash) {
-    admin = fallbackSettings.admin;
-  }
+  // If neither hash nor plaintext provided, fall back to built-in defaults
+  const usingFallback = !adminPasswordHash && !adminPasswordPlain
+  const effectiveAdmin: any =
+    usingFallback
+      ? fallbackSettings.admin
+      : { username: adminUsername, passwordHash: adminPasswordHash, password: adminPasswordPlain }
 
-  if (normalizedUser !== String(admin.username).toLowerCase()) {
+  if (normalizedUser !== String(effectiveAdmin.username).toLowerCase()) {
     return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
   // If using built-in fallback, accept the default plaintext for compatibility
   let ok = false
-  if (admin === fallbackSettings.admin) {
+  if (usingFallback) {
     ok = password === "ChristisKing8"
   } else {
-    ok = await bcrypt.compare(password, admin.passwordHash)
+    if (effectiveAdmin.passwordHash) {
+      ok = await bcrypt.compare(password, effectiveAdmin.passwordHash)
+    } else if (typeof effectiveAdmin.password === "string") {
+      ok = password === effectiveAdmin.password
+    }
   }
   if (!ok) {
     return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
   // Sign session with short UTC expiration (10 minutes)
-  const token = await signSession(admin.username);
+  const token = await signSession(effectiveAdmin.username);
   const res = NextResponse.json({ ok: true });
   
   // Set cookie with explicit short UTC expiration date

@@ -61,7 +61,33 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
   }
 
-  const pkg = packages.find((p) => p.id === packageId)
+  async function resolvePackages() {
+    try {
+      const origin = process.env.NEXT_PUBLIC_SITE_URL || new URL(request.url).origin
+      const res = await fetch(`${origin}/api/content/packages`, { cache: "no-store" })
+      const data = await res.json().catch(() => ({}))
+      const api = Array.isArray(data?.packages) ? data.packages : []
+      const mapped = api.map((p: any, idx: number) => {
+        const hasSplit = typeof p.currency === "string" && typeof p.price === "number"
+        const m = !hasSplit ? String(p.price || "").match(/^([A-Z]{3})\s*([\d,]+(?:\.\d+)?)$/) : null
+        const currency = hasSplit ? String(p.currency) : String(m?.[1] || "GBP")
+        const value = hasSplit ? Number(p.price) : m?.[2] ? Number(String(m[2]).replace(/,/g, "")) : 0
+        return {
+          id: typeof p.id === "string" && p.id ? p.id : `${String(p.name || "Package").toLowerCase().replace(/\s+/g, "-")}-${idx}`,
+          name: p.name || `Package ${idx + 1}`,
+          currency,
+          price: value,
+          deposit: typeof p.deposit === "number" ? p.deposit : 0,
+        }
+      })
+      return mapped.length ? mapped : packages
+    } catch {
+      return packages
+    }
+  }
+
+  const resolved = await resolvePackages()
+  const pkg = resolved.find((p: any) => p.id === packageId)
   if (!pkg) {
     return NextResponse.json({ error: "Package not found" }, { status: 404 })
   }
