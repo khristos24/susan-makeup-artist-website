@@ -14,6 +14,7 @@ import { Button } from '@/components/Button';
 import { Input, Textarea } from '@/components/Input';
 import bcrypt from 'bcryptjs';
 import { getSection, updateSection } from '@/lib/api';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function DashboardApp() {
   const [currentPage, setCurrentPage] = useState('dashboard');
@@ -79,6 +80,9 @@ function SettingsForm() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -104,6 +108,18 @@ function SettingsForm() {
       setSaving(true);
       setError('');
       setSuccess('');
+      if (password || confirmPassword) {
+        if (password.length < 6) {
+          setError('Password must be at least 6 characters');
+          setSaving(false);
+          return;
+        }
+        if (password !== confirmPassword) {
+          setError('Passwords do not match');
+          setSaving(false);
+          return;
+        }
+      }
       const next = { ...data };
       if (password && password.length >= 6) {
         next.admin = { ...next.admin, passwordHash: await bcrypt.hash(password, 10) };
@@ -111,6 +127,7 @@ function SettingsForm() {
       await updateSection('settings', next);
       setSuccess('Settings saved');
       setPassword('');
+      setConfirmPassword('');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to save settings');
     } finally {
@@ -154,13 +171,40 @@ function SettingsForm() {
               className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
             />
             <Input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               label="New Password"
               id="settings_admin_password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Leave blank to keep current password"
               className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              rightSlot={
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="hover:text-foreground focus:outline-none"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              }
+            />
+            <Input
+              type={showConfirm ? 'text' : 'password'}
+              label="Confirm New Password"
+              id="settings_admin_confirm_password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Re-enter new password"
+              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              rightSlot={
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm(!showConfirm)}
+                  className="hover:text-foreground focus:outline-none"
+                >
+                  {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              }
             />
           </div>
         </CardContent>
