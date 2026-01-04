@@ -1,24 +1,34 @@
 import { NextResponse, type NextRequest } from "next/server"
 import Stripe from "stripe"
-import { put } from "@vercel/blob"
+import { put, list } from "@vercel/blob"
 
 import { sql } from "../../../../lib/db"
 import { packages } from "../../../../data/packages"
 import { rateLimit } from "@/lib/rateLimit"
 
 const stripeSecret = process.env.STRIPE_SECRET_KEY
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://beautyhomebysuzain.com"
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "https://beautyhomebysuzain.com")
 const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET;
 const BLOB_BASE_URL =
   process.env.BLOB_BASE_URL ||
   process.env.NEXT_PUBLIC_BLOB_BASE_URL ||
-  (BLOB_BUCKET ? `https://${BLOB_BUCKET}.public.blob.vercel-storage.com` : "");
+  (BLOB_BUCKET ? `https://${BLOB_BUCKET}.public.blob.vercel-storage.com` : undefined);
 const BLOB_TOKEN =
   process.env.BLOB_READ_WRITE_TOKEN ||
   process.env.NEXT_PUBLIC_BLOB_READ_WRITE_TOKEN ||
   process.env.NEXT_PUBLIC_BLOB_RW_TOKEN ||
   process.env.BLOB_READ_WRITE_TOKEN
-const BOOKINGS_BLOB_URL = `${BLOB_BASE_URL}/bookings/bookings.json`
+
+async function getBookingsBlobUrl() {
+  if (BLOB_BASE_URL) return `${BLOB_BASE_URL}/bookings/bookings.json`;
+  if (BLOB_TOKEN) {
+    try {
+      const { blobs } = await list({ prefix: "bookings/bookings.json", limit: 1, token: BLOB_TOKEN });
+      if (blobs.length > 0) return blobs[0].url;
+    } catch { /* ignore */ }
+  }
+  return null;
+}
 
 function bookingReference() {
   const now = new Date()
@@ -186,7 +196,8 @@ export async function POST(request: NextRequest) {
         stripe_session_id: session.id,
         created_at: new Date().toISOString(),
       }
-      const existing = await fetch(BOOKINGS_BLOB_URL, { cache: "no-store" }).then((r) => (r.ok ? r.json() : [])).catch(() => [])
+      const bookingsUrl = await getBookingsBlobUrl();
+      const existing = bookingsUrl ? await fetch(bookingsUrl, { cache: "no-store" }).then((r) => (r.ok ? r.json() : [])).catch(() => []) : [];
       const next = Array.isArray(existing) ? [booking, ...existing] : [booking]
       
       await put('bookings/bookings.json', JSON.stringify(next), {

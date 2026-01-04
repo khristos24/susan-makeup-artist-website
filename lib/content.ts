@@ -1,18 +1,39 @@
-import { put } from "@vercel/blob";
+import { put, list } from "@vercel/blob";
 
 const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET;
 const BLOB_BASE_URL =
   process.env.BLOB_BASE_URL ||
   process.env.NEXT_PUBLIC_BLOB_BASE_URL ||
-  (BLOB_BUCKET ? `https://${BLOB_BUCKET}.public.blob.vercel-storage.com` : "");
+  (BLOB_BUCKET ? `https://${BLOB_BUCKET}.public.blob.vercel-storage.com` : undefined);
 const BLOB_TOKEN =
   process.env.BLOB_READ_WRITE_TOKEN ||
   process.env.NEXT_PUBLIC_BLOB_READ_WRITE_TOKEN ||
   process.env.NEXT_PUBLIC_BLOB_RW_TOKEN ||
   process.env.BLOB_READ_WRITE_TOKEN;
 
-function blobUrl(section: string) {
-  return `${BLOB_BASE_URL}/content/${section}.json`;
+async function getBlobUrl(section: string) {
+  // If we have an explicit base URL, use it (fastest)
+  if (BLOB_BASE_URL) {
+    return `${BLOB_BASE_URL}/content/${section}.json`;
+  }
+  
+  // Otherwise, if we have a token, list blobs to find it (auto-discovery)
+  if (BLOB_TOKEN) {
+    try {
+      const { blobs } = await list({
+        prefix: `content/${section}.json`,
+        limit: 1,
+        token: BLOB_TOKEN
+      });
+      if (blobs.length > 0) {
+        return blobs[0].url;
+      }
+    } catch (e) {
+      console.warn("Failed to discover blob URL:", e);
+    }
+  }
+  
+  return null;
 }
 
 export const defaultContent: Record<string, any> = {
@@ -217,9 +238,12 @@ export const defaultContent: Record<string, any> = {
 
 export async function getContent(section: string) {
   try {
-    const res = await fetch(blobUrl(section), { cache: "no-store" });
-    if (res.ok) {
-      return await res.json();
+    const url = await getBlobUrl(section);
+    if (url) {
+      const res = await fetch(url, { cache: "no-store" });
+      if (res.ok) {
+        return await res.json();
+      }
     }
   } catch {
     // ignore
