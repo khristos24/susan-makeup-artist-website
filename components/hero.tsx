@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-// import { getSection, withSite } from "@/lib/api"
+import { getSection, withSite } from "@/lib/api"
 
 type Slide = {
   url: string
@@ -37,6 +37,29 @@ const defaultSlides: Slide[] = [
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [slides, setSlides] = useState<Slide[]>(defaultSlides)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const data = await getSection("home")
+        const apiSlides = Array.isArray(data?.hero?.slides) ? data.hero.slides : []
+        if (apiSlides.length) {
+          const mapped: Slide[] = apiSlides.map((s: any) => ({
+            url: withSite(s.image || ""),
+            title: s.title || "",
+            subtitle: s.subtitle || "",
+            primaryLabel: s.primaryLabel,
+            primaryHref: s.primaryHref,
+            secondaryLabel: s.secondaryLabel,
+            secondaryHref: s.secondaryHref,
+          }))
+          setSlides(mapped)
+        }
+      } catch {
+        /* keep defaults */
+      }
+    })()
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentSlide((prev) => (prev + 1) % slides.length), 5000)
