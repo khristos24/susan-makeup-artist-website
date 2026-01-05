@@ -86,7 +86,7 @@ function BookingPageInner() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch("/api/checkout/stripe", {
+      const res = await fetch("/api/checkout/manual", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -104,10 +104,10 @@ function BookingPageInner() {
         }),
       })
       const data = await res.json()
-      if (!res.ok || !data.url) throw new Error(data.error || "Unable to start checkout")
-      window.location.href = data.url as string
+      if (!res.ok || !data.reference) throw new Error(data.error || "Unable to create booking")
+      window.location.href = `/book/success?reference=${data.reference}&payment=manual`
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Payment failed")
+      setError(err instanceof Error ? err.message : "Booking failed")
     } finally {
       setLoading(false)
     }
@@ -324,7 +324,7 @@ function BookingPageInner() {
                   onClick={() => handleSubmit(payType)}
                   className="rounded bg-[#C9A24D] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#1c1208] transition hover:bg-[#e8d6b5] disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {loading ? "Processing..." : `Pay ${payType === "deposit" ? "Deposit" : "Full"} & Confirm`}
+                  {loading ? "Processing..." : `Confirm & View Payment Details`}
                 </button>
                 <a
                   href="https://wa.me/447523992614"

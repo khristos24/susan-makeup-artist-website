@@ -20,14 +20,25 @@ type Booking = {
 function BookingSuccessInner() {
   const params = useSearchParams()
   const sessionId = params.get("session_id")
-  const [loading, setLoading] = useState(true)
+  const reference = params.get("reference")
+  const paymentType = params.get("payment")
+  const [loading, setLoading] = useState(!reference) // Only load if we don't have reference yet
   const [booking, setBooking] = useState<Booking | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchData() {
+      if (reference) {
+        // If we have a reference (manual booking), we can just display success immediately
+        // In a real app we might fetch details, but for now we can just show the confirmation
+        // or fetch by reference if we added an endpoint for that.
+        // For simplicity, we'll just stop loading.
+        setLoading(false)
+        return
+      }
+
       if (!sessionId) {
-        setError("Missing session id")
+        setError("Missing session info")
         setLoading(false)
         return
       }
@@ -43,16 +54,53 @@ function BookingSuccessInner() {
       }
     }
     fetchData()
-  }, [sessionId])
+  }, [sessionId, reference])
 
   return (
     <div className="min-h-screen bg-[#fdf7ef] px-4 py-16">
       <div className="mx-auto max-w-3xl rounded-2xl border border-[#d6c4a5] bg-white/90 p-10 shadow-lg">
         <p className="text-sm uppercase tracking-[0.2em] text-[#C9A24D]">Booking Confirmed</p>
-        <h1 className="mt-3 font-display text-4xl text-[#2c1a0a]">Thank you for your payment</h1>
-        <p className="mt-3 text-[#6b4a2d]">We&apos;ve received your booking. A confirmation has been sent.</p>
+        <h1 className="mt-3 font-display text-4xl text-[#2c1a0a]">
+          {paymentType === "manual" ? "Booking Pending Payment" : "Thank you for your payment"}
+        </h1>
+        <p className="mt-3 text-[#6b4a2d]">
+          {paymentType === "manual" 
+            ? "Your booking has been received. Please complete the bank transfer below to secure your slot." 
+            : "We've received your booking. A confirmation has been sent."}
+        </p>
 
-        {loading && <p className="mt-6 text-[#6b4a2d]">Verifying payment...</p>}
+        {paymentType === "manual" && (
+          <div className="mt-8 rounded-lg border border-[#C9A24D]/30 bg-[#f9f0de] p-6 text-[#2c1a0a]">
+            <h3 className="mb-4 font-display text-xl text-[#b1781d]">Bank Transfer Details</h3>
+            <div className="space-y-3 text-sm">
+              <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#C9A24D]/20 pb-2">
+                <span className="text-[#846134]">Bank Name</span>
+                <span className="font-semibold">Revolut Ltd</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#C9A24D]/20 pb-2">
+                <span className="text-[#846134]">Account Name</span>
+                <span className="font-semibold">Susan Eworo</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#C9A24D]/20 pb-2">
+                <span className="text-[#846134]">Sort Code</span>
+                <span className="font-mono font-semibold">23-01-20</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#C9A24D]/20 pb-2">
+                <span className="text-[#846134]">Account Number</span>
+                <span className="font-mono font-semibold">12540936</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between pb-2">
+                 <span className="text-[#846134]">Reference</span>
+                 <span className="font-mono font-bold text-[#b1781d]">{reference || "YOUR_NAME"}</span>
+              </div>
+            </div>
+            <p className="mt-4 text-xs text-[#846134]">
+              * Please use the reference code <strong>{reference}</strong> (or your name) when making the transfer so we can identify your payment.
+            </p>
+          </div>
+        )}
+
+        {loading && <p className="mt-6 text-[#6b4a2d]">Verifying...</p>}
         {error && <p className="mt-6 text-red-600">{error}</p>}
 
         {booking && (
