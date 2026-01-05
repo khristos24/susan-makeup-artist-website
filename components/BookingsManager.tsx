@@ -157,7 +157,7 @@ export default function BookingsManager() {
                   {booking.status === 'paid' && (
                     <Button 
                       size="sm" 
-                      variant="outline"
+                      variant="secondary"
                       className="text-amber-600 border-amber-200 hover:bg-amber-50 text-xs h-8"
                       onClick={() => updateStatus(booking.reference, 'pending_payment')}
                     >
