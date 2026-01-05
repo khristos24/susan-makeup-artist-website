@@ -55,7 +55,7 @@ function BookingPageInner() {
             description: p.description || p.originalPrice || "",
             currency,
             price: value,
-            deposit: typeof p.deposit === "number" ? p.deposit : 0,
+            deposit: typeof p.deposit === "number" ? p.deposit : Number(p.deposit) || 0,
             includes: Array.isArray(p.includes)
               ? p.includes
               : Array.isArray(p.features)

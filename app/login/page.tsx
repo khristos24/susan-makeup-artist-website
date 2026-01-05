@@ -6,6 +6,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Card, CardContent, CardHeader } from "@/components/Card";
+import { Modal } from "@/components/Modal";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -13,6 +14,16 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  
+  // Recovery state
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const [recoveryKey, setRecoveryKey] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [recoveryError, setRecoveryError] = useState("");
+  const [recoverySuccess, setRecoverySuccess] = useState(false);
+  const [recovering, setRecovering] = useState(false);
+
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -37,6 +48,44 @@ export default function LoginPage() {
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRecover = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setRecovering(true);
+    setRecoveryError("");
+
+    if (newPassword !== confirmNewPassword) {
+      setRecoveryError("Passwords do not match");
+      setRecovering(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/auth/recover", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recoveryKey, newPassword }),
+      });
+
+      if (res.ok) {
+        setRecoverySuccess(true);
+        setTimeout(() => {
+          setShowForgotModal(false);
+          setRecoverySuccess(false);
+          setRecoveryKey("");
+          setNewPassword("");
+          setConfirmNewPassword("");
+        }, 2000);
+      } else {
+        const data = await res.json();
+        setRecoveryError(data.error || "Recovery failed");
+      }
+    } catch (err) {
+      setRecoveryError("An error occurred. Please try again.");
+    } finally {
+      setRecovering(false);
     }
   };
 
@@ -96,9 +145,83 @@ export default function LoginPage() {
             >
               {loading ? "Signing in..." : "Sign In"}
             </Button>
+            
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => setShowForgotModal(true)}
+                className="text-sm text-[#C9A24D] hover:underline hover:text-[#b89342]"
+              >
+                Forgot Password?
+              </button>
+            </div>
           </form>
         </CardContent>
       </Card>
+
+      <Modal
+        isOpen={showForgotModal}
+        onClose={() => setShowForgotModal(false)}
+        title="Reset Password"
+        size="md"
+      >
+        <div className="p-4 space-y-4">
+          <p className="text-sm text-muted-foreground">
+            Enter your unique recovery key to reset your password. If you haven&apos;t generated a recovery key, please contact the developer.
+          </p>
+
+          {recoverySuccess ? (
+            <div className="p-4 bg-green-50 text-green-700 rounded-lg text-center">
+              Password reset successfully! Redirecting...
+            </div>
+          ) : (
+            <form onSubmit={handleRecover} className="space-y-4">
+              {recoveryError && (
+                <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-200">
+                  {recoveryError}
+                </div>
+              )}
+
+              <Input
+                label="Recovery Key"
+                value={recoveryKey}
+                onChange={(e) => setRecoveryKey(e.target.value)}
+                placeholder="Paste your recovery key here"
+                required
+                className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              />
+
+              <Input
+                type="password"
+                label="New Password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Enter new password"
+                required
+                className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              />
+
+              <Input
+                type="password"
+                label="Confirm New Password"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                placeholder="Confirm new password"
+                required
+                className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              />
+
+              <Button
+                type="submit"
+                disabled={recovering}
+                className="w-full bg-[#C9A24D] hover:bg-[#b89342] text-[#1c1208] font-semibold"
+              >
+                {recovering ? "Resetting..." : "Reset Password"}
+              </Button>
+            </form>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 }

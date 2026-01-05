@@ -27,7 +27,7 @@ function ImageManager({ onDelete }: ImageManagerProps) {
         const mapped =
           data.items?.map((item: any, idx: number) => ({
             id: idx,
-            url: withSite(item.media),
+            url: item.media,
             name: item.title || `Image ${idx + 1}`,
             section: "Portfolio",
             category: item.category || "General",

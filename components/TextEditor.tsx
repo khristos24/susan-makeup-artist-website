@@ -208,7 +208,7 @@ export default function TextEditor({
                     <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
                       <div className="flex items-start gap-4">
                         <img
-                          src={withSite(slide.image)}
+                          src={slide.image}
                           alt={slide.title || `Slide ${idx + 1}`}
                           className="w-40 h-28 object-cover rounded"
                           onError={(e) => ((e.currentTarget.src = "/assets/placeholder.jpg"))}
@@ -344,7 +344,7 @@ export default function TextEditor({
                                     className="rounded border hover:border-[#C9A24D]"
                                   >
                                     <img
-                                      src={withSite(prevUrl)}
+                                      src={prevUrl}
                                       alt={`Prev ${pidx + 1}`}
                                       className="w-full h-16 object-cover rounded"
                                     />
@@ -514,7 +514,7 @@ export default function TextEditor({
                   <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
                     <div className="flex items-start gap-4">
                       <img
-                        src={withSite(svc.image)}
+                        src={svc.image}
                         alt={svc.title || `Service ${idx + 1}`}
                         className="w-40 h-28 object-cover rounded"
                         onError={(e) => ((e.currentTarget.src = "/assets/placeholder.jpg"))}
@@ -615,6 +615,7 @@ export default function TextEditor({
                   const nextItem = {
                     name: "",
                     price: "",
+                    deposit: "",
                     originalPrice: "",
                     badge: "",
                     availability: "",
@@ -660,7 +661,7 @@ export default function TextEditor({
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
-                  <div className="grid gap-3 md:grid-cols-3 mt-3">
+                  <div className="grid gap-3 md:grid-cols-2 mt-3">
                     <Input
                       label="Price"
                       id={`package_${idx}_price`}
@@ -668,6 +669,18 @@ export default function TextEditor({
                       onChange={(e) => {
                         const list = Array.isArray(data.packages) ? [...data.packages] : []
                         list[idx] = { ...list[idx], price: e.target.value }
+                        const next = { ...data, packages: list }
+                        setData(next)
+                        setRawJson(JSON.stringify(next, null, 2))
+                      }}
+                    />
+                    <Input
+                      label="Deposit"
+                      id={`package_${idx}_deposit`}
+                      value={pkg.deposit || ""}
+                      onChange={(e) => {
+                        const list = Array.isArray(data.packages) ? [...data.packages] : []
+                        list[idx] = { ...list[idx], deposit: e.target.value }
                         const next = { ...data, packages: list }
                         setData(next)
                         setRawJson(JSON.stringify(next, null, 2))
@@ -784,7 +797,7 @@ export default function TextEditor({
                 <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
                   <div className="flex items-start gap-4">
                     <img
-                      src={withSite(it.media)}
+                      src={it.media}
                       alt={it.alt || `Item ${idx + 1}`}
                       className="w-40 h-28 object-cover rounded"
                       onError={(e) => ((e.currentTarget.src = "/assets/placeholder.jpg"))}

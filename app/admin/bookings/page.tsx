@@ -58,6 +58,32 @@ export default function AdminBookingsPage() {
     }
   }
 
+  async function updateStatus(reference: string, newStatus: string) {
+    if (!confirm(`Mark booking ${reference} as ${newStatus}?`)) return
+    
+    // Optimistic update
+    const previous = [...bookings]
+    setBookings(prev => prev.map(b => b.reference === reference ? { ...b, status: newStatus } : b))
+
+    try {
+      const res = await fetch('/api/admin/bookings', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-key': password
+        },
+        body: JSON.stringify({ reference, status: newStatus })
+      })
+      
+      if (!res.ok) {
+        throw new Error('Failed to update status')
+      }
+    } catch (err) {
+      alert('Error updating status')
+      setBookings(previous) // Revert
+    }
+  }
+
   const filtered = useMemo(() => {
     if (!statusFilter) return bookings
     return bookings.filter((b) => b.status === statusFilter)
@@ -94,7 +120,7 @@ export default function AdminBookingsPage() {
               className="rounded border border-[#d6c4a5] bg-white px-3 py-2 text-sm text-[#2c1a0a]"
             >
               <option value="">All</option>
-              <option value="pending">Pending</option>
+              <option value="pending_payment">Pending Payment</option>
               <option value="paid">Paid</option>
               <option value="cancelled">Cancelled</option>
             </select>
@@ -116,6 +142,7 @@ export default function AdminBookingsPage() {
                 <th className="px-3 py-2">Location</th>
                 <th className="px-3 py-2">Client</th>
                 <th className="px-3 py-2">Status</th>
+                <th className="px-3 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -140,19 +167,37 @@ export default function AdminBookingsPage() {
                       className={`rounded-full px-3 py-1 text-xs font-semibold ${
                         b.status === "paid"
                           ? "bg-green-100 text-green-700"
-                          : b.status === "pending"
+                          : (b.status === "pending" || b.status === "pending_payment")
                             ? "bg-amber-100 text-amber-700"
                             : "bg-gray-200 text-gray-700"
                       }`}
                     >
-                      {b.status.toUpperCase()}
+                      {b.status.toUpperCase().replace('_', ' ')}
                     </span>
+                  </td>
+                  <td className="px-3 py-2">
+                    {(b.status === 'pending_payment' || b.status === 'pending') && (
+                      <button
+                        onClick={() => updateStatus(b.reference, 'paid')}
+                        className="rounded bg-green-100 px-2 py-1 text-xs font-semibold text-green-700 hover:bg-green-200 transition"
+                      >
+                        Mark Paid
+                      </button>
+                    )}
+                    {b.status === 'paid' && (
+                      <button
+                        onClick={() => updateStatus(b.reference, 'pending_payment')}
+                        className="rounded bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700 hover:bg-amber-200 transition"
+                      >
+                        Mark Pending
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
               {!filtered.length && (
                 <tr>
-                  <td className="px-3 py-6 text-center text-[#6b4a2d]" colSpan={8}>
+                  <td className="px-3 py-6 text-center text-[#6b4a2d]" colSpan={9}>
                     No bookings yet.
                   </td>
                 </tr>

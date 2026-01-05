@@ -37,7 +37,7 @@ export default function PackagesPage() {
               description: p.originalPrice || p.description || "",
               currency,
               price: value,
-              deposit: typeof p.deposit === "number" ? p.deposit : 0,
+              deposit: typeof p.deposit === "number" ? p.deposit : Number(p.deposit) || 0,
               includes: Array.isArray(p.includes)
                 ? p.includes
                 : Array.isArray(p.features)

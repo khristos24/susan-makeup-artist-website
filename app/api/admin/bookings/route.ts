@@ -3,7 +3,7 @@ import { cookies } from "next/headers"
 import { verifySession, COOKIE_NAME } from "@/lib/auth"
 import { sql } from "@/lib/db"
 import { rateLimit } from "@/lib/rateLimit"
-import { list } from "@vercel/blob"
+import { list, put } from "@vercel/blob"
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || process.env.NEXT_PUBLIC_ADMIN_PASSWORD
 const BLOB_BUCKET = process.env.BLOB_BUCKET || process.env.NEXT_PUBLIC_BLOB_BUCKET
@@ -70,5 +70,49 @@ export async function GET(request: NextRequest) {
     } catch {
       return NextResponse.json({ bookings: [] })
     }
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  const limited = rateLimit(request, { key: "admin:bookings:update", max: 10, windowMs: 60_000 })
+  if (limited.blocked && limited.response) return limited.response
+  
+  const token = cookies().get(COOKIE_NAME)?.value
+  const isSessionValid = await verifySession(token)
+  
+  const provided = request.headers.get("x-admin-key") || new URL(request.url).searchParams.get("key")
+  
+  if (!isSessionValid && (!ADMIN_PASSWORD || provided !== ADMIN_PASSWORD)) {
+      return unauthorized()
+  }
+
+  try {
+    const { reference, status } = await request.json()
+    if (!reference || !status) {
+      return NextResponse.json({ error: "Missing reference or status" }, { status: 400 })
+    }
+
+    const conn = process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL
+    if (conn) {
+      await sql`UPDATE bookings SET status = ${status} WHERE reference = ${reference}`
+    } else if (BLOB_TOKEN) {
+      const bookingsUrl = await getBookingsBlobUrl();
+      const existing = bookingsUrl ? await fetch(bookingsUrl, { cache: "no-store" }).then((r) => (r.ok ? r.json() : [])).catch(() => []) : [];
+      
+      const list = Array.isArray(existing) ? existing : []
+      const updated = list.map((b: any) => b.reference === reference ? { ...b, status } : b)
+      
+      await put('bookings/bookings.json', JSON.stringify(updated), {
+        access: 'public',
+        addRandomSuffix: false,
+        token: BLOB_TOKEN,
+        allowOverwrite: true,
+      })
+    }
+
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error("Update booking error", error)
+    return NextResponse.json({ error: "Failed to update booking" }, { status: 500 })
   }
 }

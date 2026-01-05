@@ -83,6 +83,7 @@ function SettingsForm() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [newRecoveryKey, setNewRecoveryKey] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -139,6 +140,26 @@ function SettingsForm() {
     }
   };
 
+  const handleGenerateRecoveryKey = async () => {
+    try {
+      setSaving(true);
+      const key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      const hash = await bcrypt.hash(key, 10);
+      
+      const next = { ...data };
+      next.admin = { ...(next.admin || {}), recoveryKeyHash: hash };
+      
+      await updateSection('settings', next);
+      setData(next);
+      setNewRecoveryKey(key);
+      setSuccess('Recovery key generated successfully. Please save it securely!');
+    } catch (e) {
+      setError('Failed to generate recovery key');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -162,6 +183,44 @@ function SettingsForm() {
       {success && (
         <div className="p-4 bg-green-50 text-green-700 rounded-lg border border-green-200">{success}</div>
       )}
+
+      <Card>
+        <CardContent>
+          <h3 className="text-lg font-medium text-[#2c1a0a] mb-4">Account Recovery</h3>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Generate a recovery key to reset your password if you forget it. 
+              Save this key in a secure place. It will only be shown once.
+            </p>
+            
+            {newRecoveryKey && (
+              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <p className="text-sm font-bold text-yellow-800 mb-1">Your New Recovery Key:</p>
+                <code className="block p-2 bg-white border border-yellow-100 rounded text-lg font-mono text-center select-all">
+                  {newRecoveryKey}
+                </code>
+                <p className="text-xs text-yellow-700 mt-2">
+                  Copy this key now. You will not be able to see it again!
+                </p>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-[#2c1a0a]">
+                Status: {data.admin?.recoveryKeyHash ? '✅ Configured' : '❌ Not Configured'}
+              </span>
+              <Button
+                variant="secondary"
+                onClick={handleGenerateRecoveryKey}
+                disabled={saving || loading}
+                className="border-[#d6c4a5] text-[#2c1a0a] hover:bg-[#fdf7ef]"
+              >
+                {data.admin?.recoveryKeyHash ? 'Regenerate Key' : 'Generate Key'}
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardContent>

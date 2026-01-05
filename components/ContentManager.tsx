@@ -69,7 +69,7 @@ export default function ContentManager({ onNavigate }: ContentManagerProps) {
             <Card key={section.id} hover>
               <div className="relative h-40 overflow-hidden bg-muted">
                 <ImageWithFallback
-                  src={withSite(section.image)}
+                  src={section.image}
                   alt={section.title}
                   className="w-full h-full object-cover"
                 />
