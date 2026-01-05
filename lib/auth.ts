@@ -26,8 +26,8 @@ async function getKey() {
  * Format: base64(username:expiry).base64(signature)
  */
 export async function signSession(username: string): Promise<string> {
-  // Set expiration to 10 minutes from now (UTC timestamp)
-  const expiry = Date.now() + 10 * 60 * 1000;
+  // Set expiration to 24 hours from now (UTC timestamp)
+  const expiry = Date.now() + 24 * 60 * 60 * 1000;
   const data = `${username}:${expiry}`;
   
   const key = await getKey();

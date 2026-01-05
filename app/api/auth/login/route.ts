@@ -69,17 +69,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
-  // Sign session with short UTC expiration (10 minutes)
+  // Sign session with UTC expiration (24 hours)
   const token = await signSession(effectiveAdmin.username);
   const res = NextResponse.json({ ok: true });
   
-  // Set cookie with explicit short UTC expiration date
+  // Set cookie with explicit UTC expiration date
   res.cookies.set(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    expires: new Date(Date.now() + 10 * 60 * 1000),
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
   });
   return res;
 }
