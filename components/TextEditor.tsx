@@ -616,7 +616,7 @@ export default function TextEditor({
                     name: "",
                     price: "",
                     deposit: "",
-                    originalPrice: "",
+                    durationEstimate: "",
                     badge: "",
                     availability: "",
                     note: "",
@@ -687,12 +687,12 @@ export default function TextEditor({
                       }}
                     />
                     <Input
-                      label="Original Price / Info"
-                      id={`package_${idx}_orig`}
-                      value={pkg.originalPrice || ""}
+                      label="Duration"
+                      id={`package_${idx}_duration`}
+                      value={pkg.durationEstimate || ""}
                       onChange={(e) => {
                         const list = Array.isArray(data.packages) ? [...data.packages] : []
-                        list[idx] = { ...list[idx], originalPrice: e.target.value }
+                        list[idx] = { ...list[idx], durationEstimate: e.target.value }
                         const next = { ...data, packages: list }
                         setData(next)
                         setRawJson(JSON.stringify(next, null, 2))
