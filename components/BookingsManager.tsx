@@ -52,6 +52,31 @@ export default function BookingsManager() {
     }
   }
 
+  async function updateStatus(reference: string, newStatus: string) {
+    if (!confirm(`Mark booking ${reference} as ${newStatus}?`)) return
+    
+    // Optimistic update
+    const previous = [...bookings]
+    setBookings(prev => prev.map(b => b.reference === reference ? { ...b, status: newStatus } : b))
+
+    try {
+      const res = await fetch('/api/admin/bookings', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reference, status: newStatus })
+      })
+      
+      if (!res.ok) {
+        throw new Error('Failed to update status')
+      }
+    } catch (err) {
+      alert('Error updating status')
+      setBookings(previous) // Revert
+    }
+  }
+
   const filtered = useMemo(() => {
     if (!statusFilter) return bookings
     return bookings.filter((b) => b.status === statusFilter)
@@ -72,7 +97,7 @@ export default function BookingsManager() {
                 className="appearance-none bg-white border border-[#d6c4a5] text-[#2c1a0a] py-2 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C9A24D] cursor-pointer"
                 >
                 <option value="">All Status</option>
-                <option value="pending">Pending</option>
+                <option value="pending_payment">Pending Payment</option>
                 <option value="paid">Paid</option>
                 <option value="cancelled">Cancelled</option>
                 </select>
@@ -105,18 +130,40 @@ export default function BookingsManager() {
                     <span className="font-mono text-sm text-muted-foreground">#{booking.reference}</span>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
                       ${booking.status === 'paid' ? 'bg-green-100 text-green-700' : 
-                        booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 
+                        (booking.status === 'pending' || booking.status === 'pending_payment') ? 'bg-amber-100 text-amber-700' : 
                         'bg-red-100 text-red-700'}`}>
-                      {booking.status}
+                      {booking.status.replace('_', ' ')}
                     </span>
                   </div>
                   <h3 className="font-semibold text-lg text-[#2c1a0a]">{booking.package_name}</h3>
                 </div>
-                <div className="text-right">
-                  <p className="text-2xl font-bold text-[#C9A24D]">
-                    {formatter(booking.amount_paid, booking.currency)}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{new Date(booking.created_at).toLocaleDateString()}</p>
+                <div className="text-right flex flex-col items-end gap-2">
+                  <div>
+                    <p className="text-2xl font-bold text-[#C9A24D]">
+                      {formatter(booking.amount_paid, booking.currency)}
+                    </p>
+                    <p className="text-sm text-muted-foreground">{new Date(booking.created_at).toLocaleDateString()}</p>
+                  </div>
+                  
+                  {(booking.status === 'pending_payment' || booking.status === 'pending') && (
+                    <Button 
+                      size="sm" 
+                      className="bg-green-600 hover:bg-green-700 text-white text-xs h-8"
+                      onClick={() => updateStatus(booking.reference, 'paid')}
+                    >
+                      Mark Paid
+                    </Button>
+                  )}
+                  {booking.status === 'paid' && (
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      className="text-amber-600 border-amber-200 hover:bg-amber-50 text-xs h-8"
+                      onClick={() => updateStatus(booking.reference, 'pending_payment')}
+                    >
+                      Mark Pending
+                    </Button>
+                  )}
                 </div>
               </div>
 
