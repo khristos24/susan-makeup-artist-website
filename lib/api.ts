@@ -13,11 +13,13 @@ export const BASE = `${API_ORIGIN}/api/content`;
 export const UPLOAD_BASE = `${API_ORIGIN}/api/upload`;
 
 // Helper to prefix relative asset paths with the site origin
+// MODIFIED: For local assets (starting with /), we keep them relative to allow next/image optimization to work best
+// and avoid issues with loopback requests or mismatched origins in Vercel previews.
 export function withSite(path: string) {
   if (!path) return path;
   if (path.startsWith("http")) return path;
-  if (!path.startsWith("/")) return `${SITE_ORIGIN}/${path}`;
-  return `${SITE_ORIGIN}${path}`;
+  if (path.startsWith("/")) return path;
+  return `/${path}`;
 }
 
 export async function getSection(section: string) {
