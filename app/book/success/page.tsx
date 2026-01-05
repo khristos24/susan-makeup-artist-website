@@ -134,12 +134,16 @@ function BookingSuccessInner() {
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <a
-            href="https://wa.me/447523992614"
+            href={`https://wa.me/447523992614?text=${encodeURIComponent(
+              `Hi Susan, I just booked! Ref: ${reference || booking?.reference || "N/A"}. Name: ${
+                booking?.customer_name || "Customer"
+              }. I will make the transfer shortly.`
+            )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 rounded bg-[#C9A24D] px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider text-[#1c1208] transition hover:bg-[#e8d6b5]"
+            className="flex-1 rounded bg-[#25D366] px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-[#128C7E]"
           >
-            Chat on WhatsApp
+            Notify via WhatsApp
           </a>
           <Link
             href="/"
