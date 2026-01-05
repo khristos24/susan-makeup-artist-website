@@ -129,7 +129,6 @@ export async function POST(request: NextRequest) {
     instagram_handle: instagramHandle || null,
     notes: notes || null,
     status: "pending_payment", // Distinct status for bank transfer
-    stripe_session_id: null,
     payment_method: "bank_transfer",
     created_at: new Date().toISOString(),
   }
@@ -154,8 +153,7 @@ export async function POST(request: NextRequest) {
           customer_phone,
           instagram_handle,
           notes,
-          status,
-          stripe_session_id
+          status
         ) VALUES (
           ${reference},
           ${pkg.id},
@@ -172,8 +170,7 @@ export async function POST(request: NextRequest) {
           ${phone},
           ${instagramHandle || null},
           ${notes || null},
-          ${"pending_payment"},
-          ${null}
+          ${"pending_payment"}
         )
       `
     } else if (BLOB_TOKEN) {

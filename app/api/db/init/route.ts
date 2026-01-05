@@ -28,7 +28,6 @@ export async function GET() {
         instagram_handle TEXT,
         notes TEXT,
         status TEXT NOT NULL,
-        stripe_session_id TEXT,
         created_at TIMESTAMP DEFAULT NOW()
       );
     `
