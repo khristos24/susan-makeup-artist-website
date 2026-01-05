@@ -15,6 +15,7 @@ type Booking = {
   country: string
   city: string
   status: string
+  customer_name: string
 }
 
 function BookingSuccessInner() {
