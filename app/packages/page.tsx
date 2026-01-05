@@ -115,7 +115,7 @@ export default function PackagesPage() {
                       {pkg.deposit > 0 && (
                         <p className="text-sm text-white/50">Deposit: {formatDeposit(pkg)} (non-refundable)</p>
                       )}
-                      <p className="text-xs text-white/40">Approx. duration: {pkg.durationEstimate}</p>
+                      <p className="text-sm text-white/50 mt-1">Duration: {pkg.durationEstimate}</p>
                     </div>
                     <p className="leading-relaxed text-white/70">{pkg.description}</p>
                     <p className="mt-4 text-sm text-[#C9A24D]">{availabilityText}</p>
