@@ -31,13 +31,18 @@ export default function PackagesPage() {
             const m = !hasSplit ? String(p.price || "").match(/^([A-Z]{3})\s*([\d,]+(?:\.\d+)?)$/) : null
             const currency = hasSplit ? (p.currency as Currency) : ((m?.[1] as Currency) || "GBP")
             const value = hasSplit ? Number(p.price) : m?.[2] ? Number(String(m[2]).replace(/,/g, "")) : 0
+
+            // Parse deposit which might be "GBP 50" or just number
+            const mDep = typeof p.deposit === "string" ? p.deposit.match(/^([A-Z]{3})?\s*([\d,]+(?:\.\d+)?)$/) : null
+            const depositVal = typeof p.deposit === "number" ? p.deposit : mDep ? Number(String(mDep[2]).replace(/,/g, "")) : Number(p.deposit) || 0
+
             return {
               id: typeof p.id === "string" && p.id ? p.id : `${p.name?.toLowerCase().replace(/\s+/g, "-") || "pkg"}-${idx}`,
               name: p.name || `Package ${idx + 1}`,
               description: p.originalPrice || p.description || "",
               currency,
               price: value,
-              deposit: typeof p.deposit === "number" ? p.deposit : Number(p.deposit) || 0,
+              deposit: depositVal,
               includes: Array.isArray(p.includes)
                 ? p.includes
                 : Array.isArray(p.features)

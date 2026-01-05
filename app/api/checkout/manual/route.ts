@@ -59,11 +59,18 @@ async function resolvePackages() {
         const defaultPkg = defaults.find(dp => dp.name === p.name)
         const fallbackId = defaultPkg ? defaultPkg.id : `${p.name.toLowerCase().replace(/\s+/g, "-")}-${idx}`
         
+        // Robust parsing for price and deposit
+        const mPrice = typeof p.price === "string" ? p.price.match(/^([A-Z]{3})?\s*([\d,]+(?:\.\d+)?)$/) : null
+        const priceVal = typeof p.price === "number" ? p.price : mPrice ? Number(String(mPrice[2]).replace(/,/g, "")) : Number(p.price) || 0
+
+        const mDep = typeof p.deposit === "string" ? p.deposit.match(/^([A-Z]{3})?\s*([\d,]+(?:\.\d+)?)$/) : null
+        const depositVal = typeof p.deposit === "number" ? p.deposit : mDep ? Number(String(mDep[2]).replace(/,/g, "")) : Number(p.deposit) || 0
+
         return {
           ...p,
           id: p.id || fallbackId,
-          price: Number(p.price),
-          deposit: Number(p.deposit),
+          price: priceVal,
+          deposit: depositVal,
         }
       })
     }
