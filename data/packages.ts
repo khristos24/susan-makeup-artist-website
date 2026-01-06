@@ -1,4 +1,4 @@
-export type Currency = "GBP" | "NGN"
+export type Currency = string
 export type Availability = "UK" | "NG" | "BOTH"
 
 export type PackageData = {
@@ -12,6 +12,8 @@ export type PackageData = {
   durationEstimate: string
   availability: Availability
 }
+
+const KNOWN_CURRENCIES = ["GBP", "USD", "EUR", "NGN", "CAD", "AUD"]
 
 export const packages: PackageData[] = [
   {
@@ -69,21 +71,36 @@ export const packages: PackageData[] = [
 
 export function formatPrice(pkg: PackageData) {
   const value = pkg.price
-  const formatter = new Intl.NumberFormat("en-GB", {
-    style: "currency",
-    currency: pkg.currency,
-    minimumFractionDigits: pkg.currency === "NGN" ? 0 : 2,
-    maximumFractionDigits: pkg.currency === "NGN" ? 0 : 2,
-  })
-  return formatter.format(value)
+  if (KNOWN_CURRENCIES.includes(pkg.currency)) {
+    try {
+      const formatter = new Intl.NumberFormat("en-GB", {
+        style: "currency",
+        currency: pkg.currency,
+        minimumFractionDigits: pkg.currency === "NGN" ? 0 : 2,
+        maximumFractionDigits: pkg.currency === "NGN" ? 0 : 2,
+      })
+      return formatter.format(value)
+    } catch {
+      // Fallback
+    }
+  }
+  // If currency is a symbol or unknown code, just prefix it
+  return `${pkg.currency}${value.toLocaleString("en-GB", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
 }
 
 export function formatDeposit(pkg: PackageData) {
-  const formatter = new Intl.NumberFormat("en-GB", {
-    style: "currency",
-    currency: pkg.currency,
-    minimumFractionDigits: pkg.currency === "NGN" ? 0 : 2,
-    maximumFractionDigits: pkg.currency === "NGN" ? 0 : 2,
-  })
-  return formatter.format(pkg.deposit)
+  if (KNOWN_CURRENCIES.includes(pkg.currency)) {
+    try {
+      const formatter = new Intl.NumberFormat("en-GB", {
+        style: "currency",
+        currency: pkg.currency,
+        minimumFractionDigits: pkg.currency === "NGN" ? 0 : 2,
+        maximumFractionDigits: pkg.currency === "NGN" ? 0 : 2,
+      })
+      return formatter.format(pkg.deposit)
+    } catch {
+      // Fallback
+    }
+  }
+  return `${pkg.currency}${pkg.deposit.toLocaleString("en-GB", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
 }

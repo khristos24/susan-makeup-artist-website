@@ -662,11 +662,23 @@ export default function TextEditor({
                     </Button>
                   </div>
                   <div className="grid gap-3 md:grid-cols-2 mt-3">
-                    <Input
-                      label="Price"
-                      id={`package_${idx}_price`}
-                      value={pkg.price || ""}
-                      onChange={(e) => {
+                      <Input
+                        label="Description"
+                        id={`package_${idx}_description`}
+                        value={pkg.description || ""}
+                        onChange={(e) => {
+                          const list = Array.isArray(data.packages) ? [...data.packages] : []
+                          list[idx] = { ...list[idx], description: e.target.value }
+                          const next = { ...data, packages: list }
+                          setData(next)
+                          setRawJson(JSON.stringify(next, null, 2))
+                        }}
+                      />
+                      <Input
+                        label="Price"
+                        id={`package_${idx}_price`}
+                        value={pkg.price || ""}
+                        onChange={(e) => {
                         const list = Array.isArray(data.packages) ? [...data.packages] : []
                         list[idx] = { ...list[idx], price: e.target.value }
                         const next = { ...data, packages: list }

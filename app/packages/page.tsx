@@ -39,7 +39,7 @@ export default function PackagesPage() {
             return {
               id: typeof p.id === "string" && p.id ? p.id : `${p.name?.toLowerCase().replace(/\s+/g, "-") || "pkg"}-${idx}`,
               name: p.name || `Package ${idx + 1}`,
-              description: p.originalPrice || p.description || "",
+              description: p.description || p.note || "",
               currency,
               price: value,
               deposit: depositVal,
@@ -51,7 +51,7 @@ export default function PackagesPage() {
                 ? p.deliverables
                 : [],
               durationEstimate: p.durationEstimate || "",
-              availability: "BOTH",
+              availability: (p.availability as any) || "BOTH",
             }
           })
           setList(mapped)
