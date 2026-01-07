@@ -94,15 +94,15 @@ function ImageManager({ onDelete }: ImageManagerProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-[#2c1a0a] text-xl font-semibold">Gallery Manager</h1>
+          <h1 className="text-black text-xl font-semibold">Gallery Manager</h1>
           <p className="text-muted-foreground">Upload and manage portfolio images</p>
         </div>
-        <label className="inline-flex items-center gap-2 bg-[#C9A24D] text-[#1c1208] px-4 py-2 rounded-lg cursor-pointer hover:bg-[#b89342] font-medium transition-colors">
-          <Upload className="w-5 h-5" />
-          {uploading ? "Uploading..." : "Upload New Image"}
-          <input
-            type="file"
-            className="hidden"
+          <label className="inline-flex items-center gap-2 bg-black text-[#FFFFFF] px-4 py-2 rounded-lg cursor-pointer hover:bg-[#1A1A1A] font-medium transition-colors">
+            <Upload className="w-5 h-5" />
+            {uploading ? "Uploading..." : "Upload New Image"}
+            <input
+              type="file"
+              className="hidden"
             accept="image/*"
             onChange={handleFileChange}
             disabled={uploading}
@@ -118,7 +118,7 @@ function ImageManager({ onDelete }: ImageManagerProps) {
 
       {loading ? (
         <div className="text-center py-12">
-          <div className="animate-spin w-8 h-8 border-4 border-[#C9A24D] border-t-transparent rounded-full mx-auto mb-4"></div>
+          <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading gallery...</p>
         </div>
       ) : (
@@ -148,20 +148,20 @@ function ImageManager({ onDelete }: ImageManagerProps) {
                     href={img.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/40 transition-colors"
+                    className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-[#FFFFFF] hover:bg-white/40 transition-colors"
                   >
                     <Eye className="w-5 h-5" />
                   </a>
                   <button
                     onClick={() => handleDelete(img.id)}
-                    className="p-2 bg-red-500/80 backdrop-blur-sm rounded-full text-white hover:bg-red-600 transition-colors"
+                    className="p-2 bg-red-500/80 backdrop-blur-sm rounded-full text-[#FFFFFF] hover:bg-red-600 transition-colors"
                   >
                     <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
               </div>
-              <div className="p-3 bg-white border-t border-[#d6c4a5]/30">
-                <p className="font-medium text-sm truncate text-[#2c1a0a]">{img.name}</p>
+              <div className="p-3 bg-white border-t border-[#E5E5E5]">
+                <p className="font-medium text-sm truncate text-black">{img.name}</p>
                 <p className="text-xs text-muted-foreground capitalize">{img.category}</p>
               </div>
             </Card>

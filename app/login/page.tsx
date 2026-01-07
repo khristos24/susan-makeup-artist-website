@@ -90,13 +90,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#fdf7ef] p-4">
-      <Card className="w-full max-w-md shadow-xl border-[#d6c4a5]">
-        <CardHeader className="text-center border-b-[#d6c4a5]/30">
-          <div className="w-16 h-16 bg-[#C9A24D] rounded-xl flex items-center justify-center mx-auto mb-4 shadow-md">
-            <span className="text-[#1c1208] font-bold text-2xl">SM</span>
+    <div className="min-h-screen flex items-center justify-center bg-white p-4">
+      <Card className="w-full max-w-md shadow-xl border-[#E5E5E5]">
+        <CardHeader className="text-center border-b-[#E5E5E5]">
+          <div className="w-16 h-16 bg-black rounded-xl flex items-center justify-center mx-auto mb-4 shadow-md">
+            <span className="text-white font-bold text-2xl">SM</span>
           </div>
-          <h1 className="text-2xl font-display text-[#2c1a0a]">Welcome Back</h1>
+          <h1 className="text-2xl font-display text-black">Welcome Back</h1>
           <p className="text-muted-foreground">Sign in to manage your website</p>
         </CardHeader>
         <CardContent>
@@ -114,7 +114,7 @@ export default function LoginPage() {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter admin username"
               required
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#999999] focus:ring-black"
             />
             
             <Input
@@ -125,7 +125,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter admin password"
               required
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#999999] focus:ring-black"
               rightSlot={
                 <button
                   type="button"
@@ -141,7 +141,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#C9A24D] hover:bg-[#b89342] text-[#1c1208] font-semibold"
+              className="w-full bg-black hover:bg-[#1A1A1A] text-[#FFFFFF] font-semibold"
             >
               {loading ? "Signing in..." : "Sign In"}
             </Button>
@@ -150,7 +150,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowForgotModal(true)}
-                className="text-sm text-[#C9A24D] hover:underline hover:text-[#b89342]"
+                className="text-sm text-black hover:underline hover:text-[#666666]"
               >
                 Forgot Password?
               </button>
@@ -188,7 +188,7 @@ export default function LoginPage() {
                 onChange={(e) => setRecoveryKey(e.target.value)}
                 placeholder="Paste your recovery key here"
                 required
-                className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+                className="bg-white border-[#999999] focus:ring-black"
               />
 
               <Input
@@ -198,7 +198,7 @@ export default function LoginPage() {
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Enter new password"
                 required
-                className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+                className="bg-white border-[#999999] focus:ring-black"
               />
 
               <Input
@@ -208,13 +208,13 @@ export default function LoginPage() {
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                 placeholder="Confirm new password"
                 required
-                className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+                className="bg-white border-[#999999] focus:ring-black"
               />
 
               <Button
                 type="submit"
                 disabled={recovering}
-                className="w-full bg-[#C9A24D] hover:bg-[#b89342] text-[#1c1208] font-semibold"
+                className="w-full bg-black hover:bg-[#1A1A1A] text-white font-semibold"
               >
                 {recovering ? "Resetting..." : "Reset Password"}
               </Button>

@@ -92,22 +92,22 @@ export default function Hero() {
 
       <div className="relative z-20 flex h-full items-center justify-center">
         <div className="mx-auto max-w-4xl px-4 text-center">
-          <h1 className="text-5xl font-display tracking-wide text-[#d8b86a] sm:text-6xl md:text-7xl drop-shadow-[0_3px_20px_rgba(0,0,0,0.6)]">
+          <h1 className="text-5xl font-display tracking-wide text-[#FFFFFF] sm:text-6xl md:text-7xl drop-shadow-[0_3px_20px_rgba(0,0,0,0.6)]">
             {slides[currentSlide]?.title}
           </h1>
-          <p className="mt-4 text-xl uppercase tracking-wider text-[#fefaf4] sm:text-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]">
+          <p className="mt-4 text-xl uppercase tracking-wider text-[#E5E5E5] sm:text-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]">
             {slides[currentSlide]?.subtitle}
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href={slides[currentSlide]?.primaryHref || "/book"}
-              className="rounded bg-[#C9A24D] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#1c1208] transition-transform hover:scale-105 hover:bg-[#e8d6b5]"
+              className="rounded bg-black px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#FFFFFF] transition hover:bg-[#1A1A1A] hover:scale-105"
             >
               {slides[currentSlide]?.primaryLabel || "Book Appointment"}
             </Link>
             <Link
               href={slides[currentSlide]?.secondaryHref || "/packages"}
-              className="rounded border-2 border-[#C9A24D] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#c08b2f] transition-transform hover:scale-105 hover:bg-[#C9A24D] hover:text-[#1c1208]"
+              className="rounded border-2 border-white px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#FFFFFF] transition-transform hover:scale-105 hover:bg-white hover:text-black"
             >
               {slides[currentSlide]?.secondaryLabel || "View Packages"}
             </Link>
@@ -118,14 +118,14 @@ export default function Hero() {
       <button
         onClick={prevSlide}
         aria-label="Previous slide"
-        className="absolute left-4 top-1/2 z-30 -translate-y-1/2 rounded-full bg-[#C9A24D]/20 p-3 text-[#1c1208] transition-colors hover:bg-[#C9A24D]/40"
+        className="absolute left-4 top-1/2 z-30 -translate-y-1/2 rounded-full bg-white/20 p-3 text-[#FFFFFF] transition-colors hover:bg-white/30"
       >
         <ChevronLeft size={32} />
       </button>
       <button
         onClick={nextSlide}
         aria-label="Next slide"
-        className="absolute right-4 top-1/2 z-30 -translate-y-1/2 rounded-full bg-[#C9A24D]/20 p-3 text-[#1c1208] transition-colors hover:bg-[#C9A24D]/40"
+        className="absolute right-4 top-1/2 z-30 -translate-y-1/2 rounded-full bg-white/20 p-3 text-[#FFFFFF] transition-colors hover:bg-white/30"
       >
         <ChevronRight size={32} />
       </button>
@@ -137,7 +137,7 @@ export default function Hero() {
             onClick={() => setCurrentSlide(index)}
             aria-label={`Go to slide ${index + 1}`}
             className={`h-3 rounded-full transition-all ${
-              index === currentSlide ? "w-8 bg-[#C9A24D]" : "w-3 bg-[#E6D1C3]/50"
+              index === currentSlide ? "w-8 bg-white" : "w-3 bg-white/40"
             }`}
           />
         ))}

@@ -56,8 +56,8 @@ export default function ContactPage() {
   const travelNote = contact.travelNote || defaultContact.travelNote!
 
   return (
-    <div className="bg-[#0E0E0E] text-white">
-      <section className="bg-gradient-to-b from-[#0E0E0E] to-[#1a1410] px-4 py-20">
+    <div className="bg-white text-black">
+      <section className="bg-white px-4 py-20">
         <div className="mx-auto max-w-6xl text-center">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -70,15 +70,15 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-4 text-xl text-[#fdf7ec] drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]"
+            className="mt-4 text-xl text-[#666666] drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]"
           >
             Book your appointment today.
           </motion.p>
-          <div className="mx-auto mt-4 h-1 w-24 bg-[#C9A24D]" />
+          <div className="mx-auto mt-4 h-1 w-24 bg-[#E5E5E5]" />
         </div>
       </section>
 
-      <section className="bg-[#1a1410] px-4 py-16">
+      <section className="bg-[#F5F5F5] px-4 py-16">
         <div className="mx-auto max-w-5xl">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <motion.a
@@ -89,17 +89,17 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="group border-2 border-[#C9A24D]/30 bg-[#0E0E0E] p-8 transition-all hover:border-[#C9A24D]"
+              className="group border border-[#E5E5E5] bg-white p-8 transition-all hover:border-black"
             >
               <div className="flex items-start gap-6">
-                <div className="bg-[#C9A24D]/10 p-4 transition-colors group-hover:bg-[#C9A24D]/20">
-                  <Phone size={32} className="text-[#C9A24D]" />
+                <div className="bg-[#F5F5F5] p-4 transition-colors group-hover:bg-[#E5E5E5]">
+                  <Phone size={32} className="text-black" />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl uppercase tracking-wider">WhatsApp Booking</h3>
-                  <p className="mt-2 text-white/60">Book directly via WhatsApp for instant confirmation.</p>
-                  <p className="mt-3 text-lg text-[#C9A24D]">{whatsappText}</p>
-                  <p className="mt-2 text-sm text-white/40">Tap to chat now.</p>
+                  <p className="mt-2 text-[#666666]">Book directly via WhatsApp for instant confirmation.</p>
+                  <p className="mt-3 text-lg text-black">{whatsappText}</p>
+                  <p className="mt-2 text-sm text-[#666666]">Tap to chat now.</p>
                 </div>
               </div>
             </motion.a>
@@ -112,46 +112,46 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
-              className="group border-2 border-[#C9A24D]/30 bg-[#0E0E0E] p-8 transition-all hover:border-[#C9A24D]"
+              className="group border border-[#E5E5E5] bg-white p-8 transition-all hover:border-black"
             >
               <div className="flex items-start gap-6">
-                <div className="bg-[#C9A24D]/10 p-4 transition-colors group-hover:bg-[#C9A24D]/20">
-                  <Instagram size={32} className="text-[#C9A24D]" />
+                <div className="bg-[#F5F5F5] p-4 transition-colors group-hover:bg-[#E5E5E5]">
+                  <Instagram size={32} className="text-black" />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl uppercase tracking-wider">Instagram DM</h3>
-                  <p className="mt-2 text-white/60">Send us a direct message on Instagram.</p>
-                  <p className="mt-3 text-lg text-[#C9A24D]">@{instagramHandle}</p>
-                  <p className="mt-2 text-sm text-white/40">Follow and message us.</p>
+                  <p className="mt-2 text-[#666666]">Send us a direct message on Instagram.</p>
+                  <p className="mt-3 text-lg text-black">@{instagramHandle}</p>
+                  <p className="mt-2 text-sm text-[#666666]">Follow and message us.</p>
                 </div>
               </div>
             </motion.a>
           </div>
 
-          <div className="mt-16 border-2 border-[#C9A24D]/30 bg-[#0E0E0E] p-8">
-            <h3 className="font-display text-center text-3xl text-white">Business Information</h3>
+          <div className="mt-16 border border-[#E5E5E5] bg-white p-8">
+            <h3 className="font-display text-center text-3xl text-black">Business Information</h3>
             <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
               <div className="flex items-start gap-4">
-                <MapPin size={24} className="mt-1 flex-shrink-0 text-[#C9A24D]" />
+                <MapPin size={24} className="mt-1 flex-shrink-0 text-black" />
                 <div>
                   <h4 className="text-lg uppercase tracking-wider">Locations</h4>
-                  <div className="mt-3 space-y-2 text-white/70">
+                  <div className="mt-3 space-y-2 text-[#666666]">
                     {addressLines.map((line) => (
                       <p key={line}>{line}</p>
                     ))}
-                    <p className="mt-3 text-[#C9A24D]">{travelNote}</p>
+                    <p className="mt-3 text-[#666666]">{travelNote}</p>
                   </div>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <Clock size={24} className="mt-1 flex-shrink-0 text-[#C9A24D]" />
+                <Clock size={24} className="mt-1 flex-shrink-0 text-black" />
                 <div>
                   <h4 className="text-lg uppercase tracking-wider">Availability</h4>
-                  <div className="mt-3 space-y-2 text-white/70">
+                  <div className="mt-3 space-y-2 text-[#666666]">
                     <p>By appointment only</p>
                     <p>Limited slots available</p>
-                    <p className="mt-3 text-sm text-white/50">Book in advance to secure your preferred date.</p>
+                    <p className="mt-3 text-sm text-[#666666]">Book in advance to secure your preferred date.</p>
                   </div>
                 </div>
               </div>
@@ -160,35 +160,35 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-b from-[#1a1410] to-[#0E0E0E] px-4 py-16">
+      <section className="bg-[#F5F5F5] px-4 py-16">
         <div className="mx-auto max-w-4xl">
-          <div className="border-2 border-[#C9A24D]/30 bg-[#0E0E0E] p-8">
-            <h3 className="font-display text-center text-2xl text-white">Booking Guidelines</h3>
+          <div className="border border-[#E5E5E5] bg-white p-8">
+            <h3 className="font-display text-center text-2xl text-black">Booking Guidelines</h3>
             <div className="mt-6 space-y-6">
-              <div className="border-l-4 border-[#C9A24D] pl-6">
-                <h4 className="text-sm uppercase tracking-wider text-white">Booking Fee Required</h4>
-                <p className="text-sm text-white/70">
+              <div className="border-l-4 border-[#E5E5E5] pl-6">
+                <h4 className="text-sm uppercase tracking-wider text-black">Booking Fee Required</h4>
+                <p className="text-sm text-[#666666]">
                   A booking fee is required to secure your appointment. This fee is non-refundable and will be deducted
                   from your total package cost.
                 </p>
               </div>
-              <div className="border-l-4 border-[#C9A24D] pl-6">
-                <h4 className="text-sm uppercase tracking-wider text-white">No Refund Policy</h4>
-                <p className="text-sm text-white/70">
+              <div className="border-l-4 border-[#E5E5E5] pl-6">
+                <h4 className="text-sm uppercase tracking-wider text-black">No Refund Policy</h4>
+                <p className="text-sm text-[#666666]">
                   All payments are final. Please ensure your date is confirmed before booking. Reschedules may be
                   accommodated based on availability.
                 </p>
               </div>
-              <div className="border-l-4 border-[#C9A24D] pl-6">
-                <h4 className="text-sm uppercase tracking-wider text-white">Travel Fees</h4>
-                <p className="text-sm text-white/70">
+              <div className="border-l-4 border-[#E5E5E5] pl-6">
+                <h4 className="text-sm uppercase tracking-wider text-black">Travel Fees</h4>
+                <p className="text-sm text-[#666666]">
                   Travel fees may apply depending on your location. Contact us for a detailed quote specific to your
                   area.
                 </p>
               </div>
-              <div className="border-l-4 border-[#C9A24D] pl-6">
-                <h4 className="text-sm uppercase tracking-wider text-white">Limited Availability</h4>
-                <p className="text-sm text-white/70">
+              <div className="border-l-4 border-[#E5E5E5] pl-6">
+                <h4 className="text-sm uppercase tracking-wider text-black">Limited Availability</h4>
+                <p className="text-sm text-[#666666]">
                   We have limited slots available each month. Book early to secure your preferred date and time,
                   especially for bridal and special event bookings.
                 </p>
@@ -198,10 +198,10 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-[#0E0E0E] px-4 py-16">
+      <section className="bg-white px-4 py-16">
         <div className="mx-auto max-w-4xl text-center">
-          <h3 className="font-display text-3xl text-white md:text-4xl">Follow Our Journey</h3>
-          <p className="mt-4 text-white/60">
+          <h3 className="font-display text-3xl text-black md:text-4xl">Follow Our Journey</h3>
+          <p className="mt-4 text-[#666666]">
             Stay updated with our latest work, exclusive offers, and beauty tips.
           </p>
 
@@ -210,21 +210,21 @@ export default function ContactPage() {
               href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 text-[#C9A24D] transition-colors hover:text-[#E6D1C3]"
+              className="flex items-center gap-3 text-black transition-colors hover:text-[#666666]"
             >
               <Instagram size={32} />
               <span className="text-lg">@{instagramHandle}</span>
             </a>
           </div>
 
-          <div className="mt-12 border border-[#C9A24D]/20 bg-[#1a1410] p-8">
-            <p className="text-white/60">Have questions? Need more information about our services?</p>
+          <div className="mt-12 border border-[#E5E5E5] bg-[#F5F5F5] p-8">
+            <p className="text-[#666666]">Have questions? Need more information about our services?</p>
             <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded bg-[#C9A24D] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#0E0E0E] transition-colors hover:bg-[#E6D1C3]"
+              className="rounded bg-black px-8 py-4 text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#1A1A1A]"
             >
               WhatsApp: {whatsappText}
             </a>
@@ -232,7 +232,7 @@ export default function ContactPage() {
                 href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded border-2 border-[#C9A24D] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#C9A24D] transition-colors hover:bg-[#C9A24D] hover:text-[#0E0E0E]"
+                className="rounded border-2 border-black px-8 py-4 text-sm font-semibold uppercase tracking-wider text-black transition-colors hover:bg-[#F5F5F5]"
               >
                 Instagram Direct
               </a>
@@ -241,25 +241,25 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-b from-[#0E0E0E] to-[#1a1410] px-4 py-16">
+      <section className="bg-[#F5F5F5] px-4 py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="border border-[#C9A24D]/20 bg-[#0E0E0E] p-12 text-center">
-            <MapPin size={48} className="mx-auto mb-6 text-[#C9A24D]" />
-            <h3 className="font-display text-2xl text-white">Service Areas</h3>
+          <div className="border border-[#E5E5E5] bg-white p-12 text-center">
+            <MapPin size={48} className="mx-auto mb-6 text-black" />
+            <h3 className="font-display text-2xl text-black">Service Areas</h3>
             <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
               <div>
-                <h4 className="text-xl text-white">United Kingdom</h4>
+                <h4 className="text-xl text-black">United Kingdom</h4>
                 {addressLines.map((line) => (
-                  <p key={line} className="text-white/60">{line}</p>
+                  <p key={line} className="text-[#666666]">{line}</p>
                 ))}
               </div>
               <div>
-                <h4 className="text-xl text-white">Worldwide Travel</h4>
-                <p className="text-white/60">{travelNote}</p>
-                <p className="mt-2 text-sm text-white/50">Get in touch for bespoke bookings.</p>
+                <h4 className="text-xl text-black">Worldwide Travel</h4>
+                <p className="text-[#666666]">{travelNote}</p>
+                <p className="mt-2 text-sm text-[#666666]">Get in touch for bespoke bookings.</p>
               </div>
             </div>
-            <p className="mt-8 text-[#C9A24D]">{travelNote}</p>
+            <p className="mt-8 text-[#666666]">{travelNote}</p>
           </div>
         </div>
       </section>

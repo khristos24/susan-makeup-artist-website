@@ -57,7 +57,7 @@ export default function DashboardApp() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf7ef] flex">
+    <div className="min-h-screen bg-[#F5F5F5] flex">
       <Sidebar currentPage={currentPage} onNavigate={handleNavigate} onLogout={handleLogout} />
       
       <div className="flex-1 ml-64 flex flex-col">
@@ -164,14 +164,14 @@ function SettingsForm() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-display text-[#2c1a0a]">Settings</h2>
+          <h2 className="text-xl font-display text-black">Settings</h2>
           <p className="text-sm text-muted-foreground">Manage admin credentials and site settings</p>
         </div>
         <Button
           variant="primary"
           onClick={handleSave}
           disabled={saving || loading}
-          className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+          className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
         >
           {saving ? 'Saving...' : 'Save Changes'}
         </Button>
@@ -186,7 +186,7 @@ function SettingsForm() {
 
       <Card>
         <CardContent>
-          <h3 className="text-lg font-medium text-[#2c1a0a] mb-4">Account Recovery</h3>
+          <h3 className="text-lg font-medium text-black mb-4">Account Recovery</h3>
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
               Generate a recovery key to reset your password if you forget it. 
@@ -194,26 +194,26 @@ function SettingsForm() {
             </p>
             
             {newRecoveryKey && (
-              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <p className="text-sm font-bold text-yellow-800 mb-1">Your New Recovery Key:</p>
-                <code className="block p-2 bg-white border border-yellow-100 rounded text-lg font-mono text-center select-all">
+              <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg">
+                <p className="text-sm font-bold text-black mb-1">Your New Recovery Key:</p>
+                <code className="block p-2 bg-white border border-neutral-100 rounded text-lg font-mono text-center select-all">
                   {newRecoveryKey}
                 </code>
-                <p className="text-xs text-yellow-700 mt-2">
+                <p className="text-xs text-[#666666] mt-2">
                   Copy this key now. You will not be able to see it again!
                 </p>
               </div>
             )}
 
             <div className="flex items-center justify-between">
-              <span className="text-sm text-[#2c1a0a]">
+              <span className="text-sm text-black">
                 Status: {data.admin?.recoveryKeyHash ? '✅ Configured' : '❌ Not Configured'}
               </span>
               <Button
                 variant="secondary"
                 onClick={handleGenerateRecoveryKey}
                 disabled={saving || loading}
-                className="border-[#d6c4a5] text-[#2c1a0a] hover:bg-[#fdf7ef]"
+                className="border-[#E5E5E5] text-black hover:bg-[#F5F5F5]"
               >
                 {data.admin?.recoveryKeyHash ? 'Regenerate Key' : 'Generate Key'}
               </Button>
@@ -224,14 +224,14 @@ function SettingsForm() {
 
       <Card>
         <CardContent>
-          <h3 className="text-lg font-medium text-[#2c1a0a] mb-4">Admin Credentials</h3>
+          <h3 className="text-lg font-medium text-black mb-4">Admin Credentials</h3>
           <div className="grid gap-6 md:grid-cols-2">
             <Input
               label="Username"
               id="settings_admin_username"
               value={data.admin?.username || ''}
               onChange={(e) => setData({ ...data, admin: { ...data.admin, username: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
             <Input
               type={showPassword ? 'text' : 'password'}
@@ -240,7 +240,7 @@ function SettingsForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Leave blank to keep current password"
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
               rightSlot={
                 <button
                   type="button"
@@ -258,7 +258,7 @@ function SettingsForm() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Re-enter new password"
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
               rightSlot={
                 <button
                   type="button"
@@ -275,49 +275,49 @@ function SettingsForm() {
 
       <Card>
         <CardContent>
-          <h3 className="text-lg font-medium text-[#2c1a0a] mb-4">Profile</h3>
+          <h3 className="text-lg font-medium text-black mb-4">Profile</h3>
           <div className="grid gap-6 md:grid-cols-2">
             <Input
               label="Display Name"
               id="settings_profile_displayName"
               value={data.profile?.displayName || ''}
               onChange={(e) => setData({ ...data, profile: { ...data.profile, displayName: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
             <Input
               label="Contact Email"
               id="settings_profile_email"
               value={data.profile?.email || ''}
               onChange={(e) => setData({ ...data, profile: { ...data.profile, email: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
             <Input
               label="Phone"
               id="settings_profile_phone"
               value={data.profile?.phone || ''}
               onChange={(e) => setData({ ...data, profile: { ...data.profile, phone: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
             <Input
               label="WhatsApp"
               id="settings_profile_whatsapp"
               value={data.profile?.whatsapp || ''}
               onChange={(e) => setData({ ...data, profile: { ...data.profile, whatsapp: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
             <Input
               label="WhatsApp Link"
               id="settings_profile_whatsappLink"
               value={data.profile?.whatsappLink || ''}
               onChange={(e) => setData({ ...data, profile: { ...data.profile, whatsappLink: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
             <Input
               label="Instagram URL"
               id="settings_profile_instagram"
               value={data.profile?.instagram || ''}
               onChange={(e) => setData({ ...data, profile: { ...data.profile, instagram: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
           </div>
         </CardContent>
@@ -325,21 +325,21 @@ function SettingsForm() {
 
       <Card>
         <CardContent>
-          <h3 className="text-lg font-medium text-[#2c1a0a] mb-4">General</h3>
+          <h3 className="text-lg font-medium text-black mb-4">General</h3>
           <div className="grid gap-6 md:grid-cols-2">
             <Input
               label="Site Title"
               id="settings_general_siteTitle"
               value={data.general?.siteTitle || ''}
               onChange={(e) => setData({ ...data, general: { ...data.general, siteTitle: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
             <Input
               label="Timezone"
               id="settings_general_timezone"
               value={data.general?.timezone || ''}
               onChange={(e) => setData({ ...data, general: { ...data.general, timezone: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
           </div>
           <div className="mt-6">
@@ -349,7 +349,7 @@ function SettingsForm() {
               rows={4}
               value={data.general?.bookingNote || ''}
               onChange={(e) => setData({ ...data, general: { ...data.general, bookingNote: e.target.value } })}
-              className="bg-white border-[#d6c4a5] focus:ring-[#C9A24D]"
+              className="bg-white border-[#E5E5E5] focus:ring-black"
             />
           </div>
         </CardContent>

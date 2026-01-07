@@ -109,7 +109,7 @@ export default function TextEditor({
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
-            <h2 className="text-xl font-display text-[#2c1a0a] capitalize">Edit {section}</h2>
+            <h2 className="text-xl font-display text-black capitalize">Edit {section}</h2>
             <p className="text-sm text-muted-foreground">Manage content and layout</p>
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function TextEditor({
             variant="primary"
             onClick={handleSave}
             disabled={saving || loading}
-            className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+            className="bg-black text-white hover:bg-[#1A1A1A]"
           >
             <Save className="w-4 h-4" />
             {saving ? "Saving..." : "Save Changes"}
@@ -178,10 +178,10 @@ export default function TextEditor({
               </div>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium text-[#2c1a0a]">Slides</label>
+                  <label className="text-sm font-medium text-black">Slides</label>
                   <Button
                     variant="primary"
-                    className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                    className="bg-black text-white hover:bg-[#1A1A1A]"
                     onClick={() => {
                       const slides = Array.isArray(data.hero.slides) ? data.hero.slides : [];
                       const nextSlide = {
@@ -205,7 +205,7 @@ export default function TextEditor({
                 </div>
                 <div className="space-y-6">
                   {(Array.isArray(data.hero.slides) ? data.hero.slides : []).map((slide: any, idx: number) => (
-                    <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
+                    <div key={idx} className="rounded-lg border border-[#E5E5E5] bg-white p-3">
                       <div className="flex items-start gap-4">
                         <img
                           src={slide.image}
@@ -217,7 +217,7 @@ export default function TextEditor({
                           <div className="flex items-center gap-3">
                             <Button
                               variant="primary"
-                              className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                              className="bg-black text-white hover:bg-[#1A1A1A]"
                               onClick={() =>
                                 openFilePickerFor((url) => {
                                   const slides = Array.isArray(data.hero.slides) ? [...data.hero.slides] : [];
@@ -341,7 +341,7 @@ export default function TextEditor({
                                       setData(next);
                                       setRawJson(JSON.stringify(next, null, 2));
                                     }}
-                                    className="rounded border hover:border-[#C9A24D]"
+                                    className="rounded border hover:border-black"
                                   >
                                     <img
                                       src={prevUrl}
@@ -362,7 +362,7 @@ export default function TextEditor({
             </div>
             <div className="mt-6 grid gap-6 md:grid-cols-2">
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-[#2c1a0a]">Locations</label>
+                <label className="block text-sm font-medium text-black">Locations</label>
                 <div className="space-y-2">
                   {(Array.isArray(data.locations) ? data.locations : []).map((loc: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-2">
@@ -394,7 +394,7 @@ export default function TextEditor({
                 </div>
                 <Button
                   variant="primary"
-                  className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                  className="bg-black text-white hover:bg-[#1A1A1A]"
                   onClick={() => {
                     const list = Array.isArray(data.locations) ? [...data.locations] : []
                     const next = { ...data, locations: [...list, ""] }
@@ -407,7 +407,7 @@ export default function TextEditor({
                 </Button>
               </div>
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-[#2c1a0a]">Training Notes</label>
+                <label className="block text-sm font-medium text-black">Training Notes</label>
                 <div className="space-y-2">
                   {(Array.isArray(data.training) ? data.training : []).map((note: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-2">
@@ -439,7 +439,7 @@ export default function TextEditor({
                 </div>
                 <Button
                   variant="primary"
-                  className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                  className="bg-black text-white hover:bg-[#1A1A1A]"
                   onClick={() => {
                     const list = Array.isArray(data.training) ? [...data.training] : []
                     const next = { ...data, training: [...list, ""] }
@@ -493,10 +493,10 @@ export default function TextEditor({
             </div>
             <div className="mt-6">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-[#2c1a0a]">Services</label>
+                <label className="text-sm font-medium text-black">Services</label>
                 <Button
                   variant="primary"
-                  className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                  className="bg-black text-white hover:bg-[#1A1A1A]"
                   onClick={() => {
                     const list = Array.isArray(data.services) ? data.services : []
                     const nextItem = { title: "", description: "", features: [], image: "/assets/placeholder.jpg", imageHistory: [] }
@@ -511,7 +511,7 @@ export default function TextEditor({
               </div>
               <div className="mt-4 space-y-6">
                 {(Array.isArray(data.services) ? data.services : []).map((svc: any, idx: number) => (
-                  <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
+                  <div key={idx} className="rounded-lg border border-[#E5E5E5] bg-white p-3">
                     <div className="flex items-start gap-4">
                       <img
                         src={svc.image}
@@ -523,7 +523,7 @@ export default function TextEditor({
                         <div className="flex items-center gap-3">
                           <Button
                             variant="primary"
-                            className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                            className="bg-black text-white hover:bg-[#1A1A1A]"
                             onClick={() =>
                               openFilePickerFor((url) => {
                                 const list = Array.isArray(data.services) ? [...data.services] : []
@@ -606,10 +606,10 @@ export default function TextEditor({
         <Card>
           <CardContent>
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[#2c1a0a]">Packages</label>
+              <label className="text-sm font-medium text-black">Packages</label>
               <Button
                 variant="primary"
-                className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                className="bg-black text-white hover:bg-[#1A1A1A]"
                 onClick={() => {
                   const list = Array.isArray(data.packages) ? data.packages : []
                   const nextItem = {
@@ -634,7 +634,7 @@ export default function TextEditor({
             </div>
             <div className="mt-4 space-y-6">
               {(Array.isArray(data.packages) ? data.packages : []).map((pkg: any, idx: number) => (
-                <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
+                <div key={idx} className="rounded-lg border border-[#E5E5E5] bg-white p-3">
                   <div className="flex items-center justify-between">
                     <Input
                       label="Name"
@@ -788,10 +788,10 @@ export default function TextEditor({
         <Card>
           <CardContent>
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[#2c1a0a]">Portfolio Items</label>
+              <label className="text-sm font-medium text-black">Portfolio Items</label>
               <Button
                 variant="primary"
-                className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                className="bg-black text-white hover:bg-[#1A1A1A]"
                 onClick={() => {
                   const list = Array.isArray(data.items) ? data.items : []
                   const nextItem = { title: "", category: "", media: "/assets/placeholder.jpg", alt: "" }
@@ -806,7 +806,7 @@ export default function TextEditor({
             </div>
             <div className="mt-4 space-y-6">
               {(Array.isArray(data.items) ? data.items : []).map((it: any, idx: number) => (
-                <div key={idx} className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
+                <div key={idx} className="rounded-lg border border-[#E5E5E5] bg-white p-3">
                   <div className="flex items-start gap-4">
                     <img
                       src={it.media}
@@ -818,7 +818,7 @@ export default function TextEditor({
                       <div className="flex items-center gap-3">
                         <Button
                           variant="primary"
-                          className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                          className="bg-black text-white hover:bg-[#1A1A1A]"
                           onClick={() =>
                             openFilePickerFor((url) => {
                               const list = Array.isArray(data.items) ? [...data.items] : []
@@ -981,7 +981,7 @@ export default function TextEditor({
               </div>
             </div>
             <div className="mt-6">
-              <label className="text-sm font-medium text-[#2c1a0a]">Address Lines</label>
+              <label className="text-sm font-medium text-black">Address Lines</label>
               <div className="mt-2 space-y-2">
                 {(Array.isArray(data.address?.lines) ? data.address.lines : []).map((line: string, idx: number) => (
                   <div key={idx} className="flex items-center gap-2">
@@ -1014,7 +1014,7 @@ export default function TextEditor({
               <div className="mt-2 flex items-center gap-3">
                 <Button
                   variant="primary"
-                  className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                  className="bg-black text-white hover:bg-[#1A1A1A]"
                   onClick={() => {
                     const lines = Array.isArray(data.address?.lines) ? [...data.address.lines] : []
                     const next = { ...data, address: { ...(data.address || {}), lines: [...lines, ""] } }
@@ -1046,7 +1046,7 @@ export default function TextEditor({
           <CardContent>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <label className="text-sm font-medium text-[#2c1a0a]">JSON Editor</label>
+                    <label className="text-sm font-medium text-black">JSON Editor</label>
                     <span className="text-xs text-muted-foreground">Edit raw content structure</span>
                 </div>
                 <Textarea
@@ -1108,8 +1108,8 @@ export default function TextEditor({
                 />
               </div>
               <div className="space-y-4">
-                <label className="block text-sm font-medium text-[#2c1a0a]">Profile Image</label>
-                <div className="rounded-lg border border-[#d6c4a5]/50 bg-white p-3">
+                <label className="block text-sm font-medium text-black">Profile Image</label>
+                <div className="rounded-lg border border-[#E5E5E5] bg-white p-3">
                   <img
                     src={withSite(data.about.image)}
                     alt={data.about.imageAlt || "About image"}
@@ -1119,7 +1119,7 @@ export default function TextEditor({
                   <div className="mt-3 flex items-center gap-3">
                     <Button
                       variant="primary"
-                      className="bg-[#C9A24D] text-[#1c1208] hover:bg-[#b89342]"
+                      className="bg-black text-white hover:bg-[#1A1A1A]"
                       onClick={() =>
                         openFilePickerFor((url) => {
                           const prev = data.about.image;
@@ -1156,7 +1156,7 @@ export default function TextEditor({
                             onClick={() =>
                               revertImage("about.image", prevUrl)
                             }
-                            className="rounded border hover:border-[#C9A24D]"
+                            className="rounded border hover:border-black"
                           >
                             <img
                               src={withSite(prevUrl)}

@@ -19,13 +19,13 @@ export default function Navigation() {
 
   const linkClasses = (href: string) =>
     `text-sm tracking-wide transition-colors ${
-      pathname === href ? "text-[#C9A24D]" : "text-[#E6D1C3]"
-    } hover:text-[#C9A24D]`
+      pathname === href ? "text-black" : "text-[#666666]"
+    } hover:text-black`
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-[#C9A24D]/30 bg-white/90 backdrop-blur">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-[#E5E5E5] bg-white/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="text-lg font-semibold tracking-wider text-[#c08b2f]">
+        <Link href="/" className="text-lg font-semibold tracking-wider text-black">
           BeautyHomeBySuzain
         </Link>
 
@@ -37,14 +37,14 @@ export default function Navigation() {
           ))}
           <Link
             href="/book"
-            className="rounded bg-[#C9A24D] px-6 py-2.5 text-sm font-semibold text-[#1c1208] transition-colors hover:bg-[#e8d6b5]"
+            className="rounded bg-black px-6 py-2.5 text-sm font-semibold text-[#FFFFFF] transition-colors hover:bg-[#1A1A1A]"
           >
             Book Now
           </Link>
         </div>
 
         <button
-          className="md:hidden text-[#c08b2f]"
+          className="md:hidden text-black"
           onClick={() => setIsOpen((open) => !open)}
           aria-label="Toggle menu"
         >
@@ -53,7 +53,7 @@ export default function Navigation() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden border-t border-[#C9A24D]/30 bg-white px-4 py-6 space-y-4 shadow-lg">
+        <div className="md:hidden border-t border-[#E5E5E5] bg-white px-4 py-6 space-y-4 shadow-lg">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -67,7 +67,7 @@ export default function Navigation() {
           <Link
             href="/book"
             onClick={() => setIsOpen(false)}
-            className="block w-full rounded bg-[#C9A24D] px-6 py-3 text-center text-sm font-semibold text-[#1c1208] transition-colors hover:bg-[#e8d6b5]"
+            className="block w-full rounded bg-black px-6 py-3 text-center text-sm font-semibold text-[#FFFFFF] transition-colors hover:bg-[#1A1A1A]"
           >
             Book Now
           </Link>

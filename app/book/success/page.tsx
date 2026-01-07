@@ -24,41 +24,41 @@ function BookingSuccessInner() {
   const [loading, setLoading] = useState(false)
 
   return (
-    <div className="min-h-screen bg-[#fdf7ef] px-4 py-16">
-      <div className="mx-auto max-w-3xl rounded-2xl border border-[#d6c4a5] bg-white/90 p-10 shadow-lg">
-        <p className="text-sm uppercase tracking-[0.2em] text-[#C9A24D]">Booking Confirmed</p>
-        <h1 className="mt-3 font-display text-4xl text-[#2c1a0a]">
+    <div className="min-h-screen bg-white px-4 py-16">
+      <div className="mx-auto max-w-3xl rounded-2xl border border-[#E5E5E5] bg-white p-10 shadow-lg">
+        <p className="text-sm uppercase tracking-[0.2em] text-black">Booking Confirmed</p>
+        <h1 className="mt-3 font-display text-4xl text-black">
           Booking Pending Payment
         </h1>
-        <p className="mt-3 text-[#6b4a2d]">
+        <p className="mt-3 text-[#666666]">
           Your booking has been received. Please complete the bank transfer below to secure your slot.
         </p>
 
-        <div className="mt-8 rounded-lg border border-[#C9A24D]/30 bg-[#f9f0de] p-6 text-[#2c1a0a]">
-          <h3 className="mb-4 font-display text-xl text-[#b1781d]">Bank Transfer Details</h3>
+        <div className="mt-8 rounded-lg border border-[#E5E5E5] bg-[#F5F5F5] p-6 text-black">
+          <h3 className="mb-4 font-display text-xl text-black">Bank Transfer Details</h3>
           <div className="space-y-3 text-sm">
-            <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#C9A24D]/20 pb-2">
-              <span className="text-[#846134]">Bank Name</span>
+            <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#E5E5E5] pb-2">
+              <span className="text-[#666666]">Bank Name</span>
               <span className="font-semibold">Revolut Ltd</span>
             </div>
-            <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#C9A24D]/20 pb-2">
-              <span className="text-[#846134]">Account Name</span>
+            <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#E5E5E5] pb-2">
+              <span className="text-[#666666]">Account Name</span>
               <span className="font-semibold">Susan Eworo</span>
             </div>
-            <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#C9A24D]/20 pb-2">
-              <span className="text-[#846134]">Sort Code</span>
+            <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#E5E5E5] pb-2">
+              <span className="text-[#666666]">Sort Code</span>
               <span className="font-mono font-semibold">23-01-20</span>
             </div>
-            <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#C9A24D]/20 pb-2">
-              <span className="text-[#846134]">Account Number</span>
+            <div className="flex flex-col sm:flex-row sm:justify-between border-b border-[#E5E5E5] pb-2">
+              <span className="text-[#666666]">Account Number</span>
               <span className="font-mono font-semibold">12540936</span>
             </div>
             <div className="flex flex-col sm:flex-row sm:justify-between pb-2">
-                <span className="text-[#846134]">Reference</span>
-                <span className="font-mono font-bold text-[#b1781d]">{reference || "YOUR_NAME"}</span>
+                <span className="text-[#666666]">Reference</span>
+                <span className="font-mono font-bold text-black">{reference || "YOUR_NAME"}</span>
             </div>
           </div>
-          <p className="mt-4 text-xs text-[#846134]">
+          <p className="mt-4 text-xs text-[#999999]">
             * Please use the reference code <strong>{reference}</strong> (or your name) when making the transfer so we can identify your payment.
           </p>
         </div>
@@ -70,19 +70,19 @@ function BookingSuccessInner() {
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 rounded bg-[#25D366] px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-[#128C7E]"
+            className="flex-1 rounded bg-black px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider text-[#FFFFFF] transition hover:bg-[#1A1A1A]"
           >
             Notify via WhatsApp
           </a>
           <Link
             href="/"
-            className="flex-1 rounded border border-[#C9A24D] px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider text-[#c08b2f] transition hover:bg-[#C9A24D] hover:text-[#1c1208]"
+            className="flex-1 rounded border border-black px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider text-black transition hover:bg-[#F5F5F5]"
           >
             Back to Home
           </Link>
           <Link
             href="/packages"
-            className="flex-1 rounded border border-[#C9A24D] px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider text-[#c08b2f] transition hover:bg-[#C9A24D] hover:text-[#1c1208]"
+            className="flex-1 rounded border border-black px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider text-black transition hover:bg-[#F5F5F5]"
           >
             View Packages
           </Link>
@@ -94,7 +94,7 @@ function BookingSuccessInner() {
 
 export default function BookingSuccessPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-[#6b4a2d]">Loading confirmation...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-[#666666]">Loading confirmation...</div>}>
       <BookingSuccessInner />
     </Suspense>
   )

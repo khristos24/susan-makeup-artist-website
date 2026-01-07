@@ -22,11 +22,11 @@ export function Button({
   const baseStyles = 'rounded-lg transition-all duration-200 inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variantStyles = {
-    primary: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg',
-    secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-    danger: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md hover:shadow-lg',
-    ghost: 'bg-transparent text-muted-foreground hover:bg-secondary hover:text-foreground',
-    gold: 'bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg',
+    primary: 'bg-black text-[#FFFFFF] hover:bg-[#1A1A1A] shadow-xs',
+    secondary: 'bg-white text-black border border-black hover:bg-[#F5F5F5]',
+    danger: 'bg-[#1A1A1A] text-[#FFFFFF] hover:bg-black shadow-xs',
+    ghost: 'bg-transparent text-[#666666] hover:bg-[#F5F5F5] hover:text-black',
+    gold: 'bg-black text-[#FFFFFF] hover:bg-[#1A1A1A] shadow-xs',
   };
   
   const sizeStyles = {

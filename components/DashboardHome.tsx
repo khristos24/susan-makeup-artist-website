@@ -8,16 +8,16 @@ interface DashboardHomeProps {
 
 function DashboardHome({ onNavigate }: DashboardHomeProps) {
   const quickActions = [
-    { label: "View Bookings", icon: Calendar, page: "bookings", color: "text-blue-600", bg: "bg-blue-100" },
-    { label: "Edit Content", icon: FileText, page: "content", color: "text-[#C9A24D]", bg: "bg-[#fdf7ef]" },
-    { label: "Manage Gallery", icon: Image, page: "images", color: "text-purple-600", bg: "bg-purple-100" },
-    { label: "Settings", icon: Settings, page: "settings", color: "text-gray-600", bg: "bg-gray-100" },
+    { label: "View Bookings", icon: Calendar, page: "bookings", color: "text-black", bg: "bg-[#F5F5F5]" },
+    { label: "Edit Content", icon: FileText, page: "content", color: "text-black", bg: "bg-[#F5F5F5]" },
+    { label: "Manage Gallery", icon: Image, page: "images", color: "text-black", bg: "bg-[#F5F5F5]" },
+    { label: "Settings", icon: Settings, page: "settings", color: "text-black", bg: "bg-[#F5F5F5]" },
   ];
 
   return (
     <div className="space-y-6">
       <div>
-          <h1 className="text-2xl font-display text-[#2c1a0a]">Welcome back, Susan</h1>
+          <h1 className="text-2xl font-display text-black">Welcome back, Susan</h1>
           <p className="text-muted-foreground">Manage your website, bookings, and content from here.</p>
       </div>
 

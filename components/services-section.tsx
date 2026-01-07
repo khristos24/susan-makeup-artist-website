@@ -65,12 +65,12 @@ export default function ServicesSection() {
   }, [])
 
   return (
-    <section className="bg-gradient-to-b from-[#fffaf2] via-[#f5ecdc] to-[#f3e8d9] px-4 py-20">
+    <section className="bg-white px-4 py-20">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
-          <p className="section-eyebrow mb-4 text-sm text-[#b1781d]">What We Offer</p>
-          <h2 className="font-display text-4xl text-[#2c1a0a] md:text-6xl">Luxury Makeup Services</h2>
-          <div className="mx-auto mt-4 h-1 w-24 bg-[#C9A24D]" />
+          <p className="section-eyebrow mb-4 text-sm text-[#666666]">What We Offer</p>
+          <h2 className="font-display text-4xl text-black md:text-6xl">Luxury Makeup Services</h2>
+          <div className="mx-auto mt-4 h-1 w-24 bg-black" />
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -79,22 +79,22 @@ export default function ServicesSection() {
             return (
               <div
                 key={service.title}
-                className="rounded-lg border border-[#C9A24D]/30 bg-white p-8 shadow-xs transition-all hover:border-[#C9A24D] hover:shadow-[#C9A24D]/15"
+                className="rounded-lg border border-[#E5E5E5] bg-white p-8 shadow-xs transition-all hover:border-black hover:shadow-lg"
               >
-                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#C9A24D]/15">
-                  <Icon className="text-[#C9A24D]" size={28} />
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-black">
+                  <Icon className="text-[#FFFFFF]" size={28} />
                 </div>
-                <h3 className="font-display text-2xl uppercase tracking-wide text-[#2c1a0a]">
+                <h3 className="font-display text-2xl uppercase tracking-wide text-black">
                   {service.title}
                 </h3>
-                <p className="mt-4 text-sm leading-relaxed text-[#5a4632]">
+                <p className="mt-4 text-sm leading-relaxed text-[#666666]">
                   {service.description}
                 </p>
                 <ul className="mt-6 space-y-2">
                   {service.highlights.map((highlight) => (
-                    <li key={highlight} className="flex items-center gap-2 text-xs uppercase text-[#5a4632]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#C9A24D]" />
-                      {highlight}
+                    <li key={highlight} className="flex items-center gap-2 text-xs uppercase text-[#666666]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-black" />
+                      <span>{highlight}</span>
                     </li>
                   ))}
                 </ul>
@@ -103,18 +103,27 @@ export default function ServicesSection() {
           })}
         </div>
 
-        <div className="mt-16 rounded-lg bg-gradient-to-r from-[#f7e8c3] via-[#f3dda7] to-[#e7c77b] p-10 text-center md:p-12">
-          <h3 className="font-display text-3xl uppercase text-[#2c1a0a] md:text-4xl">
+        <div className="mt-12 text-center">
+          <Link
+            href="/services"
+            className="inline-block rounded border-2 border-black bg-black px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#FFFFFF] transition-all hover:bg-transparent hover:text-black"
+          >
+            View All Services
+          </Link>
+        </div>
+
+        <div className="mt-16 rounded-lg bg-black p-10 text-center md:p-12">
+          <h3 className="font-display text-3xl uppercase text-[#FFFFFF] md:text-4xl">
             Makeup Training & Mentorship
           </h3>
-          <p className="mx-auto mt-4 max-w-3xl text-[#4a3320]">
+          <p className="mx-auto mt-4 max-w-3xl text-[#FFFFFF]/70">
             Hands-on training for aspiring artists looking to refine their skills, learn professional techniques, and
             build confidence in real-world glam applications.
           </p>
           <div className="mt-8">
             <Link
               href="/contact"
-              className="inline-flex rounded bg-[#C9A24D] px-8 py-3 text-sm font-semibold uppercase tracking-wider text-[#1c1208] transition-colors hover:bg-[#e8d6b5]"
+              className="inline-flex rounded bg-white px-8 py-3 text-sm font-semibold uppercase tracking-wider text-black transition-colors hover:bg-[#F5F5F5]"
             >
               Enquire About Training
             </Link>

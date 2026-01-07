@@ -75,18 +75,18 @@ export default function ContentManager({ onNavigate }: ContentManagerProps) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-4 left-4 flex items-center gap-2">
-                  <div className="w-10 h-10 rounded-lg bg-[#C9A24D] flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-[#1c1208]" />
+                  <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-[#FFFFFF]" />
                   </div>
-                  <h3 className="text-white font-medium">{section.title}</h3>
+                  <h3 className="text-[#FFFFFF] font-medium">{section.title}</h3>
                 </div>
               </div>
 
               <CardContent className="space-y-4">
                 <div>
                   <p className="text-sm text-muted-foreground mb-2">{section.description}</p>
-                  <div className="p-3 bg-[#fdf7ef] rounded-lg border border-[#d6c4a5]/30">
-                    <p className="text-sm text-[#2c1a0a] line-clamp-2">{section.preview}</p>
+                  <div className="p-3 bg-[#F5F5F5] rounded-lg border border-[#E5E5E5]">
+                    <p className="text-sm text-black line-clamp-2">{section.preview}</p>
                   </div>
                 </div>
 
@@ -94,7 +94,7 @@ export default function ContentManager({ onNavigate }: ContentManagerProps) {
                   <Button
                     variant="primary"
                     size="sm"
-                    className="flex-1 bg-[#C9A24D] hover:bg-[#b89342] text-[#1c1208]"
+                    className="flex-1 bg-black hover:bg-[#1A1A1A] text-[#FFFFFF]"
                     onClick={() => onNavigate("editor", section.id)}
                   >
                     <Edit className="w-4 h-4" />

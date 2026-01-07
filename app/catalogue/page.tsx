@@ -334,13 +334,13 @@ export default function CataloguePage() {
   }
 
   return (
-    <div className="bg-[#0E0E0E] text-white">
-      <section className="bg-gradient-to-b from-[#0E0E0E] to-[#1a1410] px-4 py-20">
+    <div className="bg-white text-black">
+      <section className="bg-gradient-to-b from-white to-[#F5F5F5] px-4 py-20">
         <div className="mx-auto max-w-6xl text-center">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-display text-5xl md:text-6xl drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)]"
+            className="font-display text-5xl md:text-6xl text-black"
           >
             Our Work
           </motion.h1>
@@ -348,15 +348,15 @@ export default function CataloguePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-4 text-xl text-[#fdf7ec] drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]"
+            className="mt-4 text-xl text-[#666666]"
           >
             A showcase of flawless transformations and luxury beauty moments.
           </motion.p>
-          <div className="mx-auto mt-4 h-1 w-24 bg-[#C9A24D]" />
+          <div className="mx-auto mt-4 h-1 w-24 bg-black" />
         </div>
       </section>
 
-      <section className="sticky top-20 z-40 border-b border-[#C9A24D]/20 bg-[#1a1410] px-4 py-8">
+      <section className="sticky top-20 z-40 border-b border-[#E5E5E5] bg-white/95 backdrop-blur-sm px-4 py-8">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-wrap justify-center gap-4">
             {categories.map((category) => (
@@ -365,8 +365,8 @@ export default function CataloguePage() {
                 onClick={() => setFilter(category.id)}
                 className={`px-6 py-2 text-sm uppercase tracking-wider transition-all ${
                   filter === category.id
-                    ? "bg-[#C9A24D] text-[#0E0E0E]"
-                    : "border border-[#C9A24D]/30 bg-[#0E0E0E] text-white/70 hover:text-[#C9A24D]"
+                    ? "bg-black text-white"
+                    : "border border-[#E5E5E5] bg-white text-[#666666] hover:border-black hover:text-black"
                 }`}
               >
                 {category.name}
@@ -376,7 +376,7 @@ export default function CataloguePage() {
         </div>
       </section>
 
-      <section className="bg-[#1a1410] px-4 py-16">
+      <section className="bg-white px-4 py-16">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredItems.map((item, index) => (
@@ -385,7 +385,7 @@ export default function CataloguePage() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative aspect-square cursor-pointer overflow-hidden border border-[#C9A24D]/20 bg-[#0E0E0E]"
+                className="group relative aspect-square cursor-pointer overflow-hidden border border-[#E5E5E5] bg-[#F5F5F5]"
                 onClick={() => setSelectedImage(index)}
               >
                 {isVideo(item.media) ? (
@@ -406,12 +406,12 @@ export default function CataloguePage() {
                   />
                 )}
 
-                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-[#0E0E0E] via-[#0E0E0E]/50 to-transparent p-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="mb-2 text-xs uppercase tracking-wider text-[#C9A24D]">
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="mb-2 text-xs uppercase tracking-wider text-white">
                     {categoryLabels[item.category]}
                   </span>
-                  <h3 className="text-xl">{item.title}</h3>
-                  <p className="text-sm text-white/70">{item.description}</p>
+                  <h3 className="text-xl text-white">{item.title}</h3>
+                  <p className="text-sm text-white/80">{item.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -419,17 +419,17 @@ export default function CataloguePage() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-b from-[#1a1410] to-[#0E0E0E] px-4 py-16">
+      <section className="bg-[#F5F5F5] px-4 py-16">
         <div className="mx-auto max-w-4xl text-center">
-          <h3 className="font-display text-3xl text-white md:text-4xl">See More on Instagram</h3>
-          <p className="mt-4 text-[#E6D1C3]/80">
+          <h3 className="font-display text-3xl text-black md:text-4xl">See More on Instagram</h3>
+          <p className="mt-4 text-[#666666]">
             Follow @beautyhomebysuzain for daily glam inspiration and behind-the-scenes content.
           </p>
           <a
             href="https://instagram.com/beautyhomebysuzain"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-block rounded bg-[#C9A24D] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#0E0E0E] transition-colors hover:bg-[#E6D1C3]"
+            className="mt-8 inline-block rounded bg-black px-8 py-4 text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#1A1A1A]"
           >
             Follow on Instagram
           </a>
@@ -469,11 +469,11 @@ export default function CataloguePage() {
             )}
 
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-              <span className="block text-sm uppercase tracking-wider text-[#C9A24D]">
+              <span className="block text-sm uppercase tracking-wider text-white">
                 {categoryLabels[filteredItems[selectedImage].category]}
               </span>
-              <h3 className="text-2xl">{filteredItems[selectedImage].title}</h3>
-              <p className="text-white/70">{filteredItems[selectedImage].description}</p>
+              <h3 className="text-2xl text-white">{filteredItems[selectedImage].title}</h3>
+              <p className="text-white/80">{filteredItems[selectedImage].description}</p>
             </div>
           </div>
         </div>

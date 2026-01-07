@@ -89,7 +89,7 @@ export default function BookingsManager() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-[#2c1a0a] text-xl font-semibold">Bookings</h1>
+          <h1 className="text-black text-xl font-semibold">Bookings</h1>
           <p className="text-muted-foreground">Manage appointments and payments</p>
         </div>
         <div className="flex items-center gap-3">
@@ -97,7 +97,7 @@ export default function BookingsManager() {
                 <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="appearance-none bg-white border border-[#d6c4a5] text-[#2c1a0a] py-2 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C9A24D] cursor-pointer"
+                className="appearance-none bg-white border border-[#E5E5E5] text-black py-2 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-black cursor-pointer"
                 >
                 <option value="">All Status</option>
                 <option value="pending_payment">Pending Payment</option>
@@ -132,17 +132,17 @@ export default function BookingsManager() {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-mono text-sm text-muted-foreground">#{booking.reference}</span>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
-                      ${booking.status === 'paid' ? 'bg-green-100 text-green-700' : 
-                        (booking.status === 'pending' || booking.status === 'pending_payment') ? 'bg-amber-100 text-amber-700' : 
-                        'bg-red-100 text-red-700'}`}>
+                      ${booking.status === 'paid' ? 'bg-black text-white' : 
+                        (booking.status === 'pending' || booking.status === 'pending_payment') ? 'bg-[#E5E5E5] text-black' : 
+                        'bg-[#1A1A1A] text-white'}`}>
                       {booking.status.replace('_', ' ')}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-lg text-[#2c1a0a]">{booking.package_name}</h3>
+                  <h3 className="font-semibold text-lg text-black">{booking.package_name}</h3>
                 </div>
                 <div className="text-right flex flex-col items-end gap-2">
                   <div>
-                    <p className="text-2xl font-bold text-[#C9A24D]">
+                    <p className="text-2xl font-bold text-black">
                       {formatter(booking.amount_paid, booking.currency)}
                     </p>
                     <p className="text-sm text-muted-foreground">{new Date(booking.created_at).toLocaleDateString()}</p>
@@ -151,7 +151,7 @@ export default function BookingsManager() {
                   {(booking.status === 'pending_payment' || booking.status === 'pending') && (
                     <Button 
                       size="sm" 
-                      className="bg-green-600 hover:bg-green-700 text-white text-xs h-8"
+                      className="bg-black hover:bg-[#1A1A1A] text-white text-xs h-8"
                       onClick={() => updateStatus(booking.reference, 'paid')}
                     >
                       Mark Paid
@@ -161,7 +161,7 @@ export default function BookingsManager() {
                     <Button 
                       size="sm" 
                       variant="secondary"
-                      className="text-amber-600 border-amber-200 hover:bg-amber-50 text-xs h-8"
+                      className="text-black border-black hover:bg-[#F5F5F5] text-xs h-8"
                       onClick={() => updateStatus(booking.reference, 'pending_payment')}
                     >
                       Mark Pending
@@ -170,15 +170,15 @@ export default function BookingsManager() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4 border-t border-[#d6c4a5]/20">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4 border-t border-[#E5E5E5]">
                 <div>
                   <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Customer</p>
-                  <p className="font-medium text-[#2c1a0a]">{booking.customer_name}</p>
+                  <p className="font-medium text-black">{booking.customer_name}</p>
                   <p className="text-sm text-muted-foreground">{booking.customer_phone}</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Appointment</p>
-                  <p className="font-medium text-[#2c1a0a]">
+                  <p className="font-medium text-black">
                     {new Date(booking.appointment_date).toLocaleDateString(undefined, {
                       weekday: 'short',
                       year: 'numeric',
@@ -190,7 +190,7 @@ export default function BookingsManager() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Location</p>
-                  <p className="font-medium text-[#2c1a0a]">{booking.city}, {booking.country}</p>
+                  <p className="font-medium text-black">{booking.city}, {booking.country}</p>
                 </div>
               </div>
             </div>

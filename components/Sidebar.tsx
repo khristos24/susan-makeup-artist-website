@@ -16,16 +16,16 @@ export function Sidebar({ currentPage, onNavigate, onLogout }: SidebarProps) {
   ];
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-[#1c1208] text-[#fdf7ef] flex flex-col shadow-xl z-40">
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-black text-[#FFFFFF] flex flex-col shadow-xl z-40">
       {/* Logo Section */}
-      <div className="p-6 border-b border-[#3e2b1b]">
+      <div className="p-6 border-b border-[#2A2A2A]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[#C9A24D] flex items-center justify-center shadow-md">
-            <span className="text-[#1c1208] font-bold text-xl">SM</span>
+          <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center shadow-md border border-white">
+            <span className="text-[#FFFFFF] font-bold text-xl">SM</span>
           </div>
           <div>
-            <h2 className="text-white font-display">Susan Makeup</h2>
-            <p className="text-xs text-[#d6c4a5]">Admin Dashboard</p>
+            <h2 className="text-[#FFFFFF] font-display">Susan Makeup</h2>
+            <p className="text-xs text-[#999999]">Admin Dashboard</p>
           </div>
         </div>
       </div>
@@ -41,8 +41,8 @@ export function Sidebar({ currentPage, onNavigate, onLogout }: SidebarProps) {
               onClick={() => onNavigate(item.id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                 isActive
-                  ? 'bg-[#C9A24D] text-[#1c1208] shadow-lg transform scale-[1.02] font-medium'
-                  : 'text-[#d6c4a5] hover:bg-[#3e2b1b] hover:transform hover:scale-[1.02]'
+                  ? 'bg-[#1A1A1A] text-[#FFFFFF] transform scale-[1.02] font-medium'
+                  : 'text-[#E5E5E5] hover:bg-[#111111] hover:transform hover:scale-[1.02]'
               }`}
             >
               <Icon className="w-5 h-5" />
@@ -53,10 +53,10 @@ export function Sidebar({ currentPage, onNavigate, onLogout }: SidebarProps) {
       </nav>
 
       {/* Logout Button */}
-      <div className="p-4 border-t border-[#3e2b1b]">
+      <div className="p-4 border-t border-[#2A2A2A]">
         <button
           onClick={onLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-[#d6c4a5] hover:bg-red-900/20 hover:text-red-300 transition-all duration-200"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-[#E5E5E5] hover:bg-[#111111] hover:text-[#FFFFFF] transition-all duration-200"
         >
           <LogOut className="w-5 h-5" />
           <span>Logout</span>

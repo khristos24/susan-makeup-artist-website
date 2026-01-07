@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --background: #fdfbf6;
-  --foreground: #2c1a0a;
-  --card: #fffaf2;
-  --card-foreground: #2c1a0a;
-  --popover: #fffaf2;
-  --popover-foreground: #2c1a0a;
-  --primary: #c9a24d;
-  --primary-foreground: #1c1208;
-  --secondary: #f3e8d9;
-  --secondary-foreground: #2c1a0a;
-  --muted: #f3e8d9;
-  --muted-foreground: #4a3320;
-  --accent: #c08b2f;
-  --accent-foreground: #1c1208;
-  --destructive: #d4183d;
-  --destructive-foreground: #ffffff;
-  --border: rgba(201, 162, 77, 0.3);
-  --input: #f3e8d9;
-  --ring: #c9a24d;
+  --background: #FFFFFF;
+  --foreground: #111111;
+  --card: #FFFFFF;
+  --card-foreground: #111111;
+  --popover: #FFFFFF;
+  --popover-foreground: #111111;
+  --primary: #000000;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FFFFFF;
+  --secondary-foreground: #000000;
+  --muted: #F5F5F5;
+  --muted-foreground: #666666;
+  --accent: #000000;
+  --accent-foreground: #FFFFFF;
+  --destructive: #1A1A1A;
+  --destructive-foreground: #FFFFFF;
+  --border: #E5E5E5;
+  --input: #FFFFFF;
+  --ring: #000000;
   --radius: 10px;
 }
 
@@ -49,19 +49,55 @@ a {
 .section-eyebrow {
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #c9a24d;
+  color: #666666;
 }
 
-/* Gold & white overrides for legacy dark utilities */
-.bg-\[\#0E0E0E\] { background-color: #fffaf2 !important; }
-.bg-\[\#1a1410\] { background-color: #f5ecdc !important; }
+/* Monochrome overrides for legacy colored utilities */
+/* Backgrounds */
+.bg-\[\#0E0E0E\] { background-color: #FFFFFF !important; }
+.bg-\[\#1a1410\] { background-color: #F5F5F5 !important; }
+.bg-\[\#fdf7ef\] { background-color: #F5F5F5 !important; }
+.bg-\[\#fffaf2\] { background-color: #FFFFFF !important; }
+.bg-\[\#f5ecdc\] { background-color: #F5F5F5 !important; }
+.bg-\[\#C9A24D\] { background-color: #000000 !important; }
+.bg-\[\#b89342\] { background-color: #1A1A1A !important; }
+.bg-\[\#3e2b1b\] { background-color: #2A2A2A !important; }
+
+/* Gradients */
 .bg-gradient-to-b.from-\[\#0E0E0E\].to-\[\#1a1410\],
 .bg-gradient-to-b.from-\[\#1a1410\].to-\[\#0E0E0E\] {
-  background: linear-gradient(180deg, #fffaf2 0%, #f3e8d9 100%) !important;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%) !important;
 }
-.text-white { color: #1f140b !important; }
-.text-white\/80 { color: #7a5328 !important; }
-.text-white\/70 { color: #8c6235 !important; }
-.text-white\/60 { color: #9e7142 !important; }
-.text-white\/50 { color: rgba(31, 20, 11, 0.6) !important; }
-.text-white\/40 { color: rgba(31, 20, 11, 0.5) !important; }
+
+/* Text colors */
+.text-white { color: #000000 !important; }
+.text-white\/80 { color: #111111 !important; }
+.text-white\/70 { color: #2A2A2A !important; }
+.text-white\/60 { color: #666666 !important; }
+.text-white\/50 { color: #999999 !important; }
+.text-white\/40 { color: #999999 !important; }
+.text-\[\#C9A24D\] { color: #000000 !important; }
+.text-\[\#2c1a0a\] { color: #111111 !important; }
+.text-\[\#5a4632\] { color: #2A2A2A !important; }
+.text-\[\#8c6235\] { color: #666666 !important; }
+.text-\[\#b1781d\] { color: #111111 !important; }
+.text-\[\#1c1208\] { color: #000000 !important; }
+.text-muted-foreground { color: var(--muted-foreground) !important; }
+
+/* Borders */
+.border-\[\#C9A24D\] { border-color: #000000 !important; }
+.border-\[\#C9A24D\]\/20 { border-color: #E5E5E5 !important; }
+.border-\[\#d6c4a5\] { border-color: #E5E5E5 !important; }
+.border-\[\#e6d8c0\] { border-color: #E5E5E5 !important; }
+.border-\[\#f0e5cf\] { border-color: #E5E5E5 !important; }
+.border-border { border-color: var(--border) !important; }
+
+/* Buttons and hover */
+.hover\:bg-\[\#E6D1C3\]:hover { background-color: #F5F5F5 !important; }
+.hover\:bg-\[\#b89342\]:hover { background-color: #1A1A1A !important; }
+.hover\:bg-secondary:hover { background-color: #F5F5F5 !important; }
+.hover\:text-\[\#0E0E0E\]:hover { color: #000000 !important; }
+
+/* Pills and badges */
+.bg-green-100, .bg-amber-100, .bg-red-100 { background-color: #F5F5F5 !important; }
+.text-green-700, .text-amber-700, .text-red-700 { color: #111111 !important; }
