@@ -365,7 +365,7 @@ export default function CataloguePage() {
                 onClick={() => setFilter(category.id)}
                 className={`px-6 py-2 text-sm uppercase tracking-wider transition-all ${
                   filter === category.id
-                    ? "bg-black text-white"
+                    ? "bg-black text-[#FFFFFF]"
                     : "border border-[#E5E5E5] bg-white text-[#666666] hover:border-black hover:text-black"
                 }`}
               >
@@ -429,7 +429,7 @@ export default function CataloguePage() {
             href="https://instagram.com/beautyhomebysuzain"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-block rounded bg-black px-8 py-4 text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#1A1A1A]"
+            className="mt-8 inline-block rounded bg-black px-8 py-4 text-sm font-semibold uppercase tracking-wider text-[#FFFFFF] transition-colors hover:bg-[#1A1A1A]"
           >
             Follow on Instagram
           </a>
