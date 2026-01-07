@@ -94,7 +94,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-xl border-[#E5E5E5]">
         <CardHeader className="text-center border-b-[#E5E5E5]">
           <div className="w-16 h-16 bg-black rounded-xl flex items-center justify-center mx-auto mb-4 shadow-md">
-            <span className="text-white font-bold text-2xl">SM</span>
+            <span className="text-[#FFFFFF] font-bold text-2xl">SM</span>
           </div>
           <h1 className="text-2xl font-display text-black">Welcome Back</h1>
           <p className="text-muted-foreground">Sign in to manage your website</p>

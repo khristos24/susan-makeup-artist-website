@@ -111,7 +111,7 @@ export default function AdminBookingsPage() {
             />
             <button
               onClick={() => fetchBookings(password, statusFilter)}
-              className="rounded bg-black px-4 py-2 text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-[#1A1A1A]"
+              className="rounded bg-black px-4 py-2 text-sm font-semibold uppercase tracking-wider text-[#FFFFFF] transition hover:bg-[#1A1A1A]"
             >
               Load
             </button>

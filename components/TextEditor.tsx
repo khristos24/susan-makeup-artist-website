@@ -125,7 +125,7 @@ export default function TextEditor({
             variant="primary"
             onClick={handleSave}
             disabled={saving || loading}
-            className="bg-black text-white hover:bg-[#1A1A1A]"
+            className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
           >
             <Save className="w-4 h-4" />
             {saving ? "Saving..." : "Save Changes"}
@@ -179,14 +179,14 @@ export default function TextEditor({
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-medium text-black">Slides</label>
-                  <Button
-                    variant="primary"
-                    className="bg-black text-white hover:bg-[#1A1A1A]"
-                    onClick={() => {
-                      const slides = Array.isArray(data.hero.slides) ? data.hero.slides : [];
-                      const nextSlide = {
-                        title: "",
-                        subtitle: "",
+          <Button
+            variant="primary"
+            className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
+            onClick={() => {
+              const slides = Array.isArray(data.hero.slides) ? data.hero.slides : [];
+              const nextSlide = {
+                title: "",
+                subtitle: "",
                         image: "/assets/placeholder.jpg",
                         primaryLabel: "Book Appointment",
                         primaryHref: "/book",
@@ -217,7 +217,7 @@ export default function TextEditor({
                           <div className="flex items-center gap-3">
                             <Button
                               variant="primary"
-                              className="bg-black text-white hover:bg-[#1A1A1A]"
+                              className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
                               onClick={() =>
                                 openFilePickerFor((url) => {
                                   const slides = Array.isArray(data.hero.slides) ? [...data.hero.slides] : [];
@@ -439,7 +439,7 @@ export default function TextEditor({
                 </div>
                 <Button
                   variant="primary"
-                  className="bg-black text-white hover:bg-[#1A1A1A]"
+                  className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
                   onClick={() => {
                     const list = Array.isArray(data.training) ? [...data.training] : []
                     const next = { ...data, training: [...list, ""] }
@@ -494,20 +494,20 @@ export default function TextEditor({
             <div className="mt-6">
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-black">Services</label>
-                <Button
-                  variant="primary"
-                  className="bg-black text-white hover:bg-[#1A1A1A]"
-                  onClick={() => {
-                    const list = Array.isArray(data.services) ? data.services : []
-                    const nextItem = { title: "", description: "", features: [], image: "/assets/placeholder.jpg", imageHistory: [] }
-                    const next = { ...data, services: [nextItem, ...list] }
-                    setData(next)
-                    setRawJson(JSON.stringify(next, null, 2))
-                  }}
-                >
-                  <Plus className="w-4 h-4" />
-                  Add Service
-                </Button>
+        <Button
+          variant="primary"
+          className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
+          onClick={() => {
+            const list = Array.isArray(data.services) ? data.services : []
+            const nextItem = { title: "", description: "", features: [], image: "/assets/placeholder.jpg", imageHistory: [] }
+            const next = { ...data, services: [nextItem, ...list] }
+            setData(next)
+            setRawJson(JSON.stringify(next, null, 2))
+          }}
+        >
+          <Plus className="w-4 h-4" />
+          Add Service
+        </Button>
               </div>
               <div className="mt-4 space-y-6">
                 {(Array.isArray(data.services) ? data.services : []).map((svc: any, idx: number) => (
@@ -523,7 +523,7 @@ export default function TextEditor({
                         <div className="flex items-center gap-3">
                           <Button
                             variant="primary"
-                            className="bg-black text-white hover:bg-[#1A1A1A]"
+                            className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
                             onClick={() =>
                               openFilePickerFor((url) => {
                                 const list = Array.isArray(data.services) ? [...data.services] : []
@@ -607,14 +607,14 @@ export default function TextEditor({
           <CardContent>
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text-black">Packages</label>
-              <Button
-                variant="primary"
-                className="bg-black text-white hover:bg-[#1A1A1A]"
-                onClick={() => {
-                  const list = Array.isArray(data.packages) ? data.packages : []
-                  const nextItem = {
-                    name: "",
-                    price: "",
+        <Button
+          variant="primary"
+          className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
+          onClick={() => {
+            const list = Array.isArray(data.packages) ? data.packages : []
+            const nextItem = {
+              name: "",
+              price: "",
                     deposit: "",
                     durationEstimate: "",
                     badge: "",
@@ -1014,7 +1014,7 @@ export default function TextEditor({
               <div className="mt-2 flex items-center gap-3">
                 <Button
                   variant="primary"
-                  className="bg-black text-white hover:bg-[#1A1A1A]"
+                  className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
                   onClick={() => {
                     const lines = Array.isArray(data.address?.lines) ? [...data.address.lines] : []
                     const next = { ...data, address: { ...(data.address || {}), lines: [...lines, ""] } }
@@ -1119,7 +1119,7 @@ export default function TextEditor({
                   <div className="mt-3 flex items-center gap-3">
                     <Button
                       variant="primary"
-                      className="bg-black text-white hover:bg-[#1A1A1A]"
+                      className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
                       onClick={() =>
                         openFilePickerFor((url) => {
                           const prev = data.about.image;
