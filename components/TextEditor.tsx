@@ -394,7 +394,7 @@ export default function TextEditor({
                 </div>
                 <Button
                   variant="primary"
-                  className="bg-black text-white hover:bg-[#1A1A1A]"
+                  className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
                   onClick={() => {
                     const list = Array.isArray(data.locations) ? [...data.locations] : []
                     const next = { ...data, locations: [...list, ""] }
@@ -791,7 +791,7 @@ export default function TextEditor({
               <label className="text-sm font-medium text-black">Portfolio Items</label>
               <Button
                 variant="primary"
-                className="bg-black text-white hover:bg-[#1A1A1A]"
+                className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
                 onClick={() => {
                   const list = Array.isArray(data.items) ? data.items : []
                   const nextItem = { title: "", category: "", media: "/assets/placeholder.jpg", alt: "" }
@@ -818,7 +818,7 @@ export default function TextEditor({
                       <div className="flex items-center gap-3">
                         <Button
                           variant="primary"
-                          className="bg-black text-white hover:bg-[#1A1A1A]"
+                          className="bg-black text-[#FFFFFF] hover:bg-[#1A1A1A]"
                           onClick={() =>
                             openFilePickerFor((url) => {
                               const list = Array.isArray(data.items) ? [...data.items] : []

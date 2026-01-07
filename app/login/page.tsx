@@ -214,7 +214,7 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 disabled={recovering}
-                className="w-full bg-black hover:bg-[#1A1A1A] text-white font-semibold"
+                className="w-full bg-black hover:bg-[#1A1A1A] text-[#FFFFFF] font-semibold"
               >
                 {recovering ? "Resetting..." : "Reset Password"}
               </Button>

@@ -183,7 +183,7 @@ export default function AdminBookingsPage() {
                     {(b.status === 'pending_payment' || b.status === 'pending') && (
                       <button
                         onClick={() => updateStatus(b.reference, 'paid')}
-                        className="rounded bg-black px-2 py-1 text-xs font-semibold text-white hover:bg-[#1A1A1A] transition"
+                        className="rounded bg-black px-2 py-1 text-xs font-semibold text-[#FFFFFF] hover:bg-[#1A1A1A] transition"
                       >
                         Mark Paid
                       </button>

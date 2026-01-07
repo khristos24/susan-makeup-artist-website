@@ -132,9 +132,9 @@ export default function BookingsManager() {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-mono text-sm text-muted-foreground">#{booking.reference}</span>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
-                      ${booking.status === 'paid' ? 'bg-black text-white' : 
+                      ${booking.status === 'paid' ? 'bg-black text-[#FFFFFF]' : 
                         (booking.status === 'pending' || booking.status === 'pending_payment') ? 'bg-[#E5E5E5] text-black' : 
-                        'bg-[#1A1A1A] text-white'}`}>
+                        'bg-[#1A1A1A] text-[#FFFFFF]'}`}>
                       {booking.status.replace('_', ' ')}
                     </span>
                   </div>
@@ -151,7 +151,7 @@ export default function BookingsManager() {
                   {(booking.status === 'pending_payment' || booking.status === 'pending') && (
                     <Button 
                       size="sm" 
-                      className="bg-black hover:bg-[#1A1A1A] text-white text-xs h-8"
+                      className="bg-black hover:bg-[#1A1A1A] text-[#FFFFFF] text-xs h-8"
                       onClick={() => updateStatus(booking.reference, 'paid')}
                     >
                       Mark Paid
